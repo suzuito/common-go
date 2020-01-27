@@ -1,0 +1,25 @@
+name: test
+on:
+  pull_request:
+jobs:
+  test:
+    name: Run unit test ${{ matrix.go }}
+    strategy:
+      matrix:
+        go: [ '1.13.x' ]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-go@v1
+        with:
+          go-version: ${{ matrix.go }}
+      - run: ./test
+      - uses: actions/upload-artifact@v1
+        with:
+          name: coverage
+          path: /tmp/artifacts
+      - uses: suzuito/create-release-by-file@v1.0.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          check_only: true
