@@ -1,6 +1,7 @@
 name: release
 on:
-  branches: ['master']
+  push:
+    branches: ['master']
 jobs:
   test:
     name: Run unit test ${{ matrix.go }}
