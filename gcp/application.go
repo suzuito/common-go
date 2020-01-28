@@ -1,6 +1,8 @@
 package gcp
 
 import (
+	"context"
+
 	firebase "firebase.google.com/go"
 	"github.com/suzuito/common-go/application"
 )
@@ -10,16 +12,20 @@ type ApplicationGCP interface {
 	AppFirebase() *firebase.App
 }
 
-// func NewApplicationGCP(ctx context.Context) (*ApplicationGCP, error) {
-// 	appFirebase, err := firebase.NewApp(ctx, nil)
-// 	if err != nil {
-// 		return nil, err
-// 	}
-// 	return &ApplicationGCP{
-// 		appFirebase: appFirebase,
-// 	}, nil
-// }
-//
-// func (a *ApplicationGCP) AppFirebase() *firebase.App {
-// 	return a.appFirebase
-// }
+type ApplicationGCPImpl struct {
+	appFirebase *firebase.App
+}
+
+func NewApplicationGCPImpl(ctx context.Context) (*ApplicationGCPImpl, error) {
+	appFirebase, err := firebase.NewApp(ctx, nil)
+	if err != nil {
+		return nil, err
+	}
+	return &ApplicationGCPImpl{
+		appFirebase: appFirebase,
+	}, nil
+}
+
+func (a *ApplicationGCPImpl) AppFirebase() *firebase.App {
+	return a.appFirebase
+}
