@@ -8,7 +8,7 @@ import (
 )
 
 type ApplicationGCP interface {
-	application.Application
+	application.ApplicationLogger
 	AppFirebase() *firebase.App
 }
 

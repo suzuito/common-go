@@ -6,6 +6,6 @@ import (
 	"github.com/suzuito/common-go/clogger"
 )
 
-type Application interface {
+type ApplicationLogger interface {
 	Logger(ctx context.Context) clogger.Logger
 }
