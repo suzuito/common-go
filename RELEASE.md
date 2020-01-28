@@ -1,3 +1,7 @@
+# 0.0.4
+
+- Rename class name Application to ApplicationLogger
+
 # 0.0.3
 
 - Rename package names gcp->cgcp web->cweb
