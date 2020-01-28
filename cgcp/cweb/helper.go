@@ -1,4 +1,4 @@
-package web
+package cweb
 
 import (
 	"net/http"
@@ -6,7 +6,7 @@ import (
 	"cloud.google.com/go/firestore"
 	"github.com/gin-gonic/gin"
 	"github.com/suzuito/common-go/clogger"
-	"github.com/suzuito/common-go/gcp"
+	"github.com/suzuito/common-go/cgcp"
 )
 
 // HO ...
@@ -17,7 +17,7 @@ type HO struct {
 
 // H ...
 func H(
-	app gcp.ApplicationGCP,
+	app cgcp.ApplicationGCP,
 	ctx *gin.Context,
 	proc func(
 		logger clogger.Logger,
