@@ -23,6 +23,26 @@ type ApplicationGinImpl struct {
 	allowedCredential bool
 }
 
+// AllowedOrigins ...
+func (a *ApplicationGinImpl) AllowedOrigins() []string {
+	return a.allowedOrigins
+}
+
+// AllowedMethods ...
+func (a *ApplicationGinImpl) AllowedMethods() []string {
+	return a.allowedMethods
+}
+
+// AllowedHeaders ...
+func (a *ApplicationGinImpl) AllowedHeaders() []string {
+	return a.allowedHeaders
+}
+
+// AllowedCredential ...
+func (a *ApplicationGinImpl) AllowedCredential() bool {
+	return a.allowedCredential
+}
+
 // NewApplicationGinImpl ...
 func NewApplicationGinImpl(ctx context.Context) (*ApplicationGinImpl, error) {
 	return &ApplicationGinImpl{
