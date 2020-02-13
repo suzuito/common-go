@@ -1,3 +1,7 @@
+# 0.0.5
+
+- Add ApplicationGin
+
 # 0.0.4
 
 - Rename class name Application to ApplicationLogger
