@@ -5,8 +5,8 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// Usecors ...
-func Usecors(app ApplicationGin, root *gin.Engine) {
+// UseCORS ...
+func UseCORS(app ApplicationGin, root *gin.Engine) {
 	root.Use(cors.New(cors.Config{
 		AllowOrigins: app.AllowedOrigins(),
 		AllowMethods: app.AllowedMethods(),
