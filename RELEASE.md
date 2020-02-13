@@ -1,3 +1,7 @@
+# v0.0.7
+
+- Add YAML
+
 # v0.0.6
 
 - Add methods for ApplicationGinImpl
