@@ -1,0 +1,5 @@
+#!/bin/bash
+
+set -e
+
+$(go env GOPATH)/bin/mockgen --source=clogger/a.go --destination=clogger_mock/a_mock.go --package=clogger_mock
