@@ -1,6 +1,12 @@
 
 # Development
 
+## Development
+
+```bash
+go install github.com/golang/mock/mockgen
+```
+
 ## Unit test
 
 ```bash
