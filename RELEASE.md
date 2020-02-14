@@ -1,3 +1,7 @@
+# v0.0.9
+
+- Add fauth.Client to helper
+
 # v0.0.8
 
 - Add clogger_mock package
