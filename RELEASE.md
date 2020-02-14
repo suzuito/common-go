@@ -1,3 +1,7 @@
+# v0.0.8
+
+- Add clogger_mock package
+
 # v0.0.7
 
 - Add YAML
