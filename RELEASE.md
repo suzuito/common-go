@@ -1,3 +1,7 @@
+# v0.0.12
+
+- Fix helper function bug
+
 # v0.0.11
 
 - Delete GCP depends from http utils

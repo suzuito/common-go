@@ -48,23 +48,19 @@ func H(
 		}
 		if opt.FirestoreClientNotUse == false {
 			fcli, err = appFirebase.Firestore(ctx)
-			if !opt.FirestoreClientNotUse {
-				if err != nil {
-					logger.Errorf("%+v", err)
-					cgin.Abort(ctx, cgin.NewHTTPError(http.StatusInternalServerError, "InternalServerError", err))
-					return
-				}
-				defer fcli.Close()
+			if err != nil {
+				logger.Errorf("%+v", err)
+				cgin.Abort(ctx, cgin.NewHTTPError(http.StatusInternalServerError, "InternalServerError", err))
+				return
 			}
-			if opt.AuthClientNotUse == false {
-				if !opt.AuthClientNotUse {
-					fauth, err = appFirebase.Auth(ctx)
-					if err != nil {
-						logger.Errorf("%+v", err)
-						cgin.Abort(ctx, cgin.NewHTTPError(http.StatusInternalServerError, "InternalServerError", err))
-						return
-					}
-				}
+			defer fcli.Close()
+		}
+		if opt.AuthClientNotUse == false {
+			fauth, err = appFirebase.Auth(ctx)
+			if err != nil {
+				logger.Errorf("%+v", err)
+				cgin.Abort(ctx, cgin.NewHTTPError(http.StatusInternalServerError, "InternalServerError", err))
+				return
 			}
 		}
 		if err := proc(logger, fcli, fauth); err != nil {
