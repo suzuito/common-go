@@ -1,3 +1,7 @@
+# v0.0.11
+
+- Delete GCP depends from http utils
+
 # v0.0.10
 
 - Delete ApplicationGCP
