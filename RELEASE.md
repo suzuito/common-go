@@ -1,3 +1,7 @@
+# v0.0.10
+
+- Delete ApplicationGCP
+
 # v0.0.9
 
 - Add fauth.Client to helper
