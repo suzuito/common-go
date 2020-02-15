@@ -1,4 +1,4 @@
-package cweb
+package cgin
 
 import "github.com/gin-gonic/gin"
 

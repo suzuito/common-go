@@ -8,6 +8,7 @@ import (
 	"firebase.google.com/go/auth"
 	"github.com/gin-gonic/gin"
 	"github.com/suzuito/common-go/application"
+	"github.com/suzuito/common-go/cgin"
 	"github.com/suzuito/common-go/clogger"
 )
 
@@ -42,7 +43,7 @@ func H(
 		appFirebase, err = firebase.NewApp(ctx, nil)
 		if err != nil {
 			logger.Errorf("%+v", err)
-			Abort(ctx, NewHTTPError(http.StatusInternalServerError, "InternalServerError", err))
+			cgin.Abort(ctx, cgin.NewHTTPError(http.StatusInternalServerError, "InternalServerError", err))
 			return
 		}
 		if opt.FirestoreClientNotUse == false {
@@ -50,7 +51,7 @@ func H(
 			if !opt.FirestoreClientNotUse {
 				if err != nil {
 					logger.Errorf("%+v", err)
-					Abort(ctx, NewHTTPError(http.StatusInternalServerError, "InternalServerError", err))
+					cgin.Abort(ctx, cgin.NewHTTPError(http.StatusInternalServerError, "InternalServerError", err))
 					return
 				}
 				defer fcli.Close()
@@ -60,7 +61,7 @@ func H(
 					fauth, err = appFirebase.Auth(ctx)
 					if err != nil {
 						logger.Errorf("%+v", err)
-						Abort(ctx, NewHTTPError(http.StatusInternalServerError, "InternalServerError", err))
+						cgin.Abort(ctx, cgin.NewHTTPError(http.StatusInternalServerError, "InternalServerError", err))
 						return
 					}
 				}
