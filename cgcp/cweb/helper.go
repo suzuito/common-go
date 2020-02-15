@@ -4,9 +4,10 @@ import (
 	"net/http"
 
 	"cloud.google.com/go/firestore"
+	firebase "firebase.google.com/go"
 	"firebase.google.com/go/auth"
 	"github.com/gin-gonic/gin"
-	"github.com/suzuito/common-go/cgcp"
+	"github.com/suzuito/common-go/application"
 	"github.com/suzuito/common-go/clogger"
 )
 
@@ -19,7 +20,7 @@ type HO struct {
 
 // H ...
 func H(
-	app cgcp.ApplicationGCP,
+	app application.ApplicationLogger,
 	ctx *gin.Context,
 	proc func(
 		logger clogger.Logger,
@@ -36,26 +37,37 @@ func H(
 		logger = app.Logger(ctx)
 		defer logger.Close()
 	}
-	if opt == nil || opt.FirestoreClientNotUse == false {
-		fcli, err = app.AppFirebase().Firestore(ctx)
-		if !opt.FirestoreClientNotUse {
-			if err != nil {
-				logger.Errorf("%+v", err)
-				Abort(ctx, NewHTTPError(http.StatusInternalServerError, "InternalServerError", err))
-				return
-			}
-			defer fcli.Close()
+	var appFirebase *firebase.App
+	if opt == nil || opt.FirestoreClientNotUse == false || opt.AuthClientNotUse == false {
+		appFirebase, err = firebase.NewApp(ctx, nil)
+		if err != nil {
+			logger.Errorf("%+v", err)
+			Abort(ctx, NewHTTPError(http.StatusInternalServerError, "InternalServerError", err))
+			return
 		}
-		if !opt.AuthClientNotUse {
-			fauth, err = app.AppFirebase().Auth(ctx)
-			if err != nil {
-				logger.Errorf("%+v", err)
-				Abort(ctx, NewHTTPError(http.StatusInternalServerError, "InternalServerError", err))
-				return
+		if opt.FirestoreClientNotUse == false {
+			fcli, err = appFirebase.Firestore(ctx)
+			if !opt.FirestoreClientNotUse {
+				if err != nil {
+					logger.Errorf("%+v", err)
+					Abort(ctx, NewHTTPError(http.StatusInternalServerError, "InternalServerError", err))
+					return
+				}
+				defer fcli.Close()
+			}
+			if opt.AuthClientNotUse == false {
+				if !opt.AuthClientNotUse {
+					fauth, err = appFirebase.Auth(ctx)
+					if err != nil {
+						logger.Errorf("%+v", err)
+						Abort(ctx, NewHTTPError(http.StatusInternalServerError, "InternalServerError", err))
+						return
+					}
+				}
 			}
 		}
-	}
-	if err := proc(logger, fcli, fauth); err != nil {
-		logger.Errorf("%+v", err)
+		if err := proc(logger, fcli, fauth); err != nil {
+			logger.Errorf("%+v", err)
+		}
 	}
 }
