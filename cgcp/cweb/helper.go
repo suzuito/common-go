@@ -3,11 +3,9 @@ package cweb
 import (
 	"net/http"
 
-	"cloud.google.com/go/firestore"
-	firebase "firebase.google.com/go"
-	"firebase.google.com/go/auth"
 	"github.com/gin-gonic/gin"
 	"github.com/suzuito/common-go/application"
+	"github.com/suzuito/common-go/cgcp"
 	"github.com/suzuito/common-go/cgin"
 	"github.com/suzuito/common-go/clogger"
 )
@@ -21,53 +19,49 @@ type HO struct {
 
 // H ...
 func H(
-	app application.ApplicationLogger,
 	ctx *gin.Context,
+	app application.ApplicationLogger,
+	appFirebase cgcp.FirebaseApp,
 	proc func(
 		logger clogger.Logger,
-		fcli *firestore.Client,
-		fauth *auth.Client,
+		fcli cgcp.FirebaseFirestoreClient,
+		fauth cgcp.FirebaseAuthClient,
 	) error,
 	opt *HO,
 ) {
 	var logger clogger.Logger
-	var fcli *firestore.Client
-	var fauth *auth.Client
+	var fcli cgcp.FirebaseFirestoreClient
+	var fauth cgcp.FirebaseAuthClient
 	var err error
 	if opt == nil || opt.LoggerNotUse == false {
 		logger = app.Logger(ctx)
 		defer logger.Close()
 	}
-	var appFirebase *firebase.App
 	if opt == nil || opt.FirestoreClientNotUse == false || opt.AuthClientNotUse == false {
-		appFirebase, err = firebase.NewApp(ctx, nil)
-		if err != nil {
-			logger.Errorf("%+v", err)
-			cgin.Abort(ctx, cgin.NewHTTPError(http.StatusInternalServerError, "InternalServerError", err))
-			return
-		}
-		if opt.FirestoreClientNotUse == false {
+		if opt == nil || opt.FirestoreClientNotUse == false {
 			fcli, err = appFirebase.Firestore(ctx)
-			if !opt.FirestoreClientNotUse {
-				if err != nil {
+			if err != nil {
+				if logger != nil {
 					logger.Errorf("%+v", err)
-					cgin.Abort(ctx, cgin.NewHTTPError(http.StatusInternalServerError, "InternalServerError", err))
-					return
 				}
-				defer fcli.Close()
+				cgin.Abort(ctx, cgin.NewHTTPError(http.StatusInternalServerError, "InternalServerError", err))
+				return
 			}
-			if opt.AuthClientNotUse == false {
-				if !opt.AuthClientNotUse {
-					fauth, err = appFirebase.Auth(ctx)
-					if err != nil {
-						logger.Errorf("%+v", err)
-						cgin.Abort(ctx, cgin.NewHTTPError(http.StatusInternalServerError, "InternalServerError", err))
-						return
-					}
+			defer fcli.Close()
+		}
+		if opt == nil || opt.AuthClientNotUse == false {
+			fauth, err = appFirebase.Auth(ctx)
+			if err != nil {
+				if logger != nil {
+					logger.Errorf("%+v", err)
 				}
+				cgin.Abort(ctx, cgin.NewHTTPError(http.StatusInternalServerError, "InternalServerError", err))
+				return
 			}
 		}
-		if err := proc(logger, fcli, fauth); err != nil {
+	}
+	if err := proc(logger, fcli, fauth); err != nil {
+		if logger != nil {
 			logger.Errorf("%+v", err)
 		}
 	}
