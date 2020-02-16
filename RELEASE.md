@@ -1,3 +1,9 @@
+# v0.1.0
+
+- Fix helper function bug
+- Modify helper function interface
+- Add new mocks
+
 # v0.0.11
 
 - Delete GCP depends from http utils
