@@ -11,5 +11,6 @@ require (
 	github.com/stretchr/testify v1.4.0
 	github.com/suzuito/autr-go v0.0.0-20190927125214-bc5f7aea5bdc
 	github.com/suzuito/common-env v1.0.1
+	google.golang.org/api v0.14.0
 	gopkg.in/go-playground/assert.v1 v1.2.1
 )
