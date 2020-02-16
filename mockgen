@@ -2,6 +2,18 @@
 
 set -e
 
-$(go env GOPATH)/bin/mockgen --source=clogger/a.go --destination=clogger_mock/a_mock.go --package=clogger_mock
-$(go env GOPATH)/bin/mockgen --source=application/a.go --destination=application_mock/a_mock.go --package=application_mock
-$(go env GOPATH)/bin/mockgen --source=cgcp/cweb/helper.go --destination=cgcp_mock/cweb_mock/helper_mock.go --package=cweb_mock
+$(go env GOPATH)/bin/mockgen \
+    --self_package=github.com/suzuito/common-go/clogger \
+    --package=clogger \
+    --source=clogger/a.go \
+    --destination=clogger/a_mock.go
+$(go env GOPATH)/bin/mockgen \
+    --self_package=github.com/suzuito/common-go/application \
+    --package=application \
+    --source=application/a.go \
+    --destination=application/a_mock.go
+$(go env GOPATH)/bin/mockgen \
+    --self_package=github.com/suzuito/common-go/cgcp \
+    --package=cgcp \
+    --source=cgcp/wrapper.go \
+    --destination=cgcp/wrapper_mock.go
