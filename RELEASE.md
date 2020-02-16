@@ -1,3 +1,7 @@
+# v0.1.1
+
+- Add FirebaseAppImpl
+
 # v0.1.0
 
 - Fix helper function bug

@@ -5,7 +5,6 @@
 package cgcp
 
 import (
-	firestore "cloud.google.com/go/firestore"
 	context "context"
 	auth "firebase.google.com/go/auth"
 	gomock "github.com/golang/mock/gomock"
@@ -88,20 +87,6 @@ func (m *MockFirebaseFirestoreClient) EXPECT() *MockFirebaseFirestoreClientMockR
 	return m.recorder
 }
 
-// Batch mocks base method
-func (m *MockFirebaseFirestoreClient) Batch() *firestore.WriteBatch {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Batch")
-	ret0, _ := ret[0].(*firestore.WriteBatch)
-	return ret0
-}
-
-// Batch indicates an expected call of Batch
-func (mr *MockFirebaseFirestoreClientMockRecorder) Batch() *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Batch", reflect.TypeOf((*MockFirebaseFirestoreClient)(nil).Batch))
-}
-
 // Close mocks base method
 func (m *MockFirebaseFirestoreClient) Close() error {
 	m.ctrl.T.Helper()
@@ -114,96 +99,6 @@ func (m *MockFirebaseFirestoreClient) Close() error {
 func (mr *MockFirebaseFirestoreClientMockRecorder) Close() *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Close", reflect.TypeOf((*MockFirebaseFirestoreClient)(nil).Close))
-}
-
-// Collection mocks base method
-func (m *MockFirebaseFirestoreClient) Collection(path string) *firestore.CollectionRef {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Collection", path)
-	ret0, _ := ret[0].(*firestore.CollectionRef)
-	return ret0
-}
-
-// Collection indicates an expected call of Collection
-func (mr *MockFirebaseFirestoreClientMockRecorder) Collection(path interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Collection", reflect.TypeOf((*MockFirebaseFirestoreClient)(nil).Collection), path)
-}
-
-// CollectionGroup mocks base method
-func (m *MockFirebaseFirestoreClient) CollectionGroup(collectionID string) *firestore.CollectionGroupRef {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "CollectionGroup", collectionID)
-	ret0, _ := ret[0].(*firestore.CollectionGroupRef)
-	return ret0
-}
-
-// CollectionGroup indicates an expected call of CollectionGroup
-func (mr *MockFirebaseFirestoreClientMockRecorder) CollectionGroup(collectionID interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CollectionGroup", reflect.TypeOf((*MockFirebaseFirestoreClient)(nil).CollectionGroup), collectionID)
-}
-
-// Collections mocks base method
-func (m *MockFirebaseFirestoreClient) Collections(ctx context.Context) *firestore.CollectionIterator {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Collections", ctx)
-	ret0, _ := ret[0].(*firestore.CollectionIterator)
-	return ret0
-}
-
-// Collections indicates an expected call of Collections
-func (mr *MockFirebaseFirestoreClientMockRecorder) Collections(ctx interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Collections", reflect.TypeOf((*MockFirebaseFirestoreClient)(nil).Collections), ctx)
-}
-
-// Doc mocks base method
-func (m *MockFirebaseFirestoreClient) Doc(path string) *firestore.DocumentRef {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Doc", path)
-	ret0, _ := ret[0].(*firestore.DocumentRef)
-	return ret0
-}
-
-// Doc indicates an expected call of Doc
-func (mr *MockFirebaseFirestoreClientMockRecorder) Doc(path interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Doc", reflect.TypeOf((*MockFirebaseFirestoreClient)(nil).Doc), path)
-}
-
-// GetAll mocks base method
-func (m *MockFirebaseFirestoreClient) GetAll(ctx context.Context, docRefs []*firestore.DocumentRef) ([]*firestore.DocumentSnapshot, error) {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetAll", ctx, docRefs)
-	ret0, _ := ret[0].([]*firestore.DocumentSnapshot)
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
-}
-
-// GetAll indicates an expected call of GetAll
-func (mr *MockFirebaseFirestoreClientMockRecorder) GetAll(ctx, docRefs interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetAll", reflect.TypeOf((*MockFirebaseFirestoreClient)(nil).GetAll), ctx, docRefs)
-}
-
-// RunTransaction mocks base method
-func (m *MockFirebaseFirestoreClient) RunTransaction(ctx context.Context, f func(context.Context, *firestore.Transaction) error, opts ...firestore.TransactionOption) error {
-	m.ctrl.T.Helper()
-	varargs := []interface{}{ctx, f}
-	for _, a := range opts {
-		varargs = append(varargs, a)
-	}
-	ret := m.ctrl.Call(m, "RunTransaction", varargs...)
-	ret0, _ := ret[0].(error)
-	return ret0
-}
-
-// RunTransaction indicates an expected call of RunTransaction
-func (mr *MockFirebaseFirestoreClientMockRecorder) RunTransaction(ctx, f interface{}, opts ...interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	varargs := append([]interface{}{ctx, f}, opts...)
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RunTransaction", reflect.TypeOf((*MockFirebaseFirestoreClient)(nil).RunTransaction), varargs...)
 }
 
 // MockFirebaseAuthClient is a mock of FirebaseAuthClient interface
