@@ -3,3 +3,5 @@
 set -e
 
 $(go env GOPATH)/bin/mockgen --source=clogger/a.go --destination=clogger_mock/a_mock.go --package=clogger_mock
+$(go env GOPATH)/bin/mockgen --source=application/a.go --destination=application_mock/a_mock.go --package=application_mock
+$(go env GOPATH)/bin/mockgen --source=cgcp/cweb/helper.go --destination=cgcp_mock/cweb_mock/helper_mock.go --package=cweb_mock

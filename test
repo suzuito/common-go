@@ -8,7 +8,7 @@ go test -timeout 30s ./...
 
 set +e
 
-for n in 'cgin'; do
+for n in cgin; do
     mkdir -p /tmp/artifacts/go-code-cover/${n}
     go test -coverprofile=/tmp/artifacts/go-code-cover/${n}.cov -timeout 30s github.com/suzuito/common-go/${n} && go tool cover -html=/tmp/artifacts/go-code-cover/${n}.cov -o /tmp/artifacts/go-code-cover/${n}.html
 done
