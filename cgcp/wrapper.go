@@ -3,7 +3,6 @@ package cgcp
 import (
 	"context"
 
-	"cloud.google.com/go/firestore"
 	firebase "firebase.google.com/go"
 	"firebase.google.com/go/auth"
 )
@@ -42,14 +41,7 @@ func NewFirebaseApp(ctx context.Context) (*FirebaseAppImpl, error) {
 
 // FirebaseFirestoreClient ...
 type FirebaseFirestoreClient interface {
-	Batch() *firestore.WriteBatch
 	Close() error
-	Collection(path string) *firestore.CollectionRef
-	CollectionGroup(collectionID string) *firestore.CollectionGroupRef
-	Collections(ctx context.Context) *firestore.CollectionIterator
-	Doc(path string) *firestore.DocumentRef
-	GetAll(ctx context.Context, docRefs []*firestore.DocumentRef) (_ []*firestore.DocumentSnapshot, err error)
-	RunTransaction(ctx context.Context, f func(context.Context, *firestore.Transaction) error, opts ...firestore.TransactionOption) (err error)
 }
 
 // FirebaseAuthClient ...
