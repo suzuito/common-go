@@ -1,3 +1,7 @@
+# v0.2.0
+
+- Add PubSub impl
+
 # v0.1.1
 
 - Add FirebaseAppImpl
