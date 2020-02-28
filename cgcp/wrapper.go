@@ -3,6 +3,7 @@ package cgcp
 import (
 	"context"
 
+	"cloud.google.com/go/pubsub"
 	firebase "firebase.google.com/go"
 	"firebase.google.com/go/auth"
 )
@@ -47,4 +48,31 @@ type FirebaseFirestoreClient interface {
 // FirebaseAuthClient ...
 type FirebaseAuthClient interface {
 	VerifyIDToken(ctx context.Context, idToken string) (*auth.Token, error)
+}
+
+// GCPApp ...
+type GCPApp interface {
+	PubSub(ctx context.Context) (GCPPubSubClient, error)
+}
+
+// GCPAppImpl ...
+type GCPAppImpl struct {
+	projectID string
+}
+
+// NewGCPAppImpl ...
+func NewGCPAppImpl(ctx context.Context, projectID string) (*GCPAppImpl, error) {
+	return &GCPAppImpl{
+		projectID: projectID,
+	}, nil
+}
+
+// PubSub ...
+func (f *GCPAppImpl) PubSub(ctx context.Context) (GCPPubSubClient, error) {
+	return pubsub.NewClient(ctx, f.projectID)
+}
+
+// GCPPubSubClient ...
+type GCPPubSubClient interface {
+	Close() error
 }
