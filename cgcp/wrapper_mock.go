@@ -138,3 +138,78 @@ func (mr *MockFirebaseAuthClientMockRecorder) VerifyIDToken(ctx, idToken interfa
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "VerifyIDToken", reflect.TypeOf((*MockFirebaseAuthClient)(nil).VerifyIDToken), ctx, idToken)
 }
+
+// MockGCPApp is a mock of GCPApp interface
+type MockGCPApp struct {
+	ctrl     *gomock.Controller
+	recorder *MockGCPAppMockRecorder
+}
+
+// MockGCPAppMockRecorder is the mock recorder for MockGCPApp
+type MockGCPAppMockRecorder struct {
+	mock *MockGCPApp
+}
+
+// NewMockGCPApp creates a new mock instance
+func NewMockGCPApp(ctrl *gomock.Controller) *MockGCPApp {
+	mock := &MockGCPApp{ctrl: ctrl}
+	mock.recorder = &MockGCPAppMockRecorder{mock}
+	return mock
+}
+
+// EXPECT returns an object that allows the caller to indicate expected use
+func (m *MockGCPApp) EXPECT() *MockGCPAppMockRecorder {
+	return m.recorder
+}
+
+// PubSub mocks base method
+func (m *MockGCPApp) PubSub(ctx context.Context) (GCPPubSubClient, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "PubSub", ctx)
+	ret0, _ := ret[0].(GCPPubSubClient)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// PubSub indicates an expected call of PubSub
+func (mr *MockGCPAppMockRecorder) PubSub(ctx interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "PubSub", reflect.TypeOf((*MockGCPApp)(nil).PubSub), ctx)
+}
+
+// MockGCPPubSubClient is a mock of GCPPubSubClient interface
+type MockGCPPubSubClient struct {
+	ctrl     *gomock.Controller
+	recorder *MockGCPPubSubClientMockRecorder
+}
+
+// MockGCPPubSubClientMockRecorder is the mock recorder for MockGCPPubSubClient
+type MockGCPPubSubClientMockRecorder struct {
+	mock *MockGCPPubSubClient
+}
+
+// NewMockGCPPubSubClient creates a new mock instance
+func NewMockGCPPubSubClient(ctrl *gomock.Controller) *MockGCPPubSubClient {
+	mock := &MockGCPPubSubClient{ctrl: ctrl}
+	mock.recorder = &MockGCPPubSubClientMockRecorder{mock}
+	return mock
+}
+
+// EXPECT returns an object that allows the caller to indicate expected use
+func (m *MockGCPPubSubClient) EXPECT() *MockGCPPubSubClientMockRecorder {
+	return m.recorder
+}
+
+// Close mocks base method
+func (m *MockGCPPubSubClient) Close() error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Close")
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// Close indicates an expected call of Close
+func (mr *MockGCPPubSubClientMockRecorder) Close() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Close", reflect.TypeOf((*MockGCPPubSubClient)(nil).Close))
+}
