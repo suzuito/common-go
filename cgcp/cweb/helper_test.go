@@ -25,12 +25,14 @@ func Test(t *testing.T) {
 			dcliFirebase *cgcp.MockFirebaseFirestoreClient,
 			acliFirebase *cgcp.MockFirebaseAuthClient,
 			pcli *cgcp.MockGCPPubSubClient,
+			mcli *cgcp.MockMemoryStoreClient,
 		)
 		inputProc func(
 			logger clogger.Logger,
 			fcli cgcp.FirebaseFirestoreClient,
 			fauth cgcp.FirebaseAuthClient,
 			pcli cgcp.GCPPubSubClient,
+			mcli cgcp.MemoryStoreClient,
 		) error
 		inputOpt         *HO
 		expectedResponse *http.Response
@@ -45,6 +47,7 @@ func Test(t *testing.T) {
 				dcliFirebase *cgcp.MockFirebaseFirestoreClient,
 				acliFirebase *cgcp.MockFirebaseAuthClient,
 				pcli *cgcp.MockGCPPubSubClient,
+				mcli *cgcp.MockMemoryStoreClient,
 			) {
 				app.
 					EXPECT().Logger(gomock.Any()).Return(logger)
@@ -60,12 +63,17 @@ func Test(t *testing.T) {
 					EXPECT().PubSub(gomock.Any()).Return(pcli, nil)
 				pcli.
 					EXPECT().Close()
+				appGCP.
+					EXPECT().MemoryStore(gomock.Any()).Return(mcli, nil)
+				mcli.
+					EXPECT().Close()
 			},
 			inputProc: func(
 				logger clogger.Logger,
 				fcli cgcp.FirebaseFirestoreClient,
 				fauth cgcp.FirebaseAuthClient,
 				pcli cgcp.GCPPubSubClient,
+				mcli cgcp.MemoryStoreClient,
 			) error {
 				return nil
 			},
@@ -81,6 +89,7 @@ func Test(t *testing.T) {
 				dcliFirebase *cgcp.MockFirebaseFirestoreClient,
 				acliFirebase *cgcp.MockFirebaseAuthClient,
 				pcli *cgcp.MockGCPPubSubClient,
+				mcli *cgcp.MockMemoryStoreClient,
 			) {
 				app.
 					EXPECT().Logger(gomock.Any()).Return(logger)
@@ -96,20 +105,26 @@ func Test(t *testing.T) {
 					EXPECT().PubSub(gomock.Any()).Return(pcli, nil)
 				pcli.
 					EXPECT().Close()
+				appGCP.
+					EXPECT().MemoryStore(gomock.Any()).Return(mcli, nil)
+				mcli.
+					EXPECT().Close()
 			},
 			inputProc: func(
 				logger clogger.Logger,
 				fcli cgcp.FirebaseFirestoreClient,
 				fauth cgcp.FirebaseAuthClient,
 				pcli cgcp.GCPPubSubClient,
+				mcli cgcp.MemoryStoreClient,
 			) error {
 				return nil
 			},
 			inputOpt: &HO{
-				FirestoreClientNotUse: false,
-				AuthClientNotUse:      false,
-				LoggerNotUse:          false,
-				PubSubClientNotUse:    false,
+				FirestoreClientNotUse:   false,
+				AuthClientNotUse:        false,
+				LoggerNotUse:            false,
+				PubSubClientNotUse:      false,
+				MemoryStoreClientNotUse: false,
 			},
 		},
 		{
@@ -122,6 +137,7 @@ func Test(t *testing.T) {
 				dcliFirebase *cgcp.MockFirebaseFirestoreClient,
 				acliFirebase *cgcp.MockFirebaseAuthClient,
 				pcli *cgcp.MockGCPPubSubClient,
+				mcli *cgcp.MockMemoryStoreClient,
 			) {
 				appFirebase.
 					EXPECT().Firestore(gomock.Any()).Return(dcliFirebase, nil)
@@ -133,14 +149,16 @@ func Test(t *testing.T) {
 				fcli cgcp.FirebaseFirestoreClient,
 				fauth cgcp.FirebaseAuthClient,
 				pcli cgcp.GCPPubSubClient,
+				mcli cgcp.MemoryStoreClient,
 			) error {
 				return nil
 			},
 			inputOpt: &HO{
-				FirestoreClientNotUse: false,
-				AuthClientNotUse:      true,
-				LoggerNotUse:          true,
-				PubSubClientNotUse:    true,
+				FirestoreClientNotUse:   false,
+				AuthClientNotUse:        true,
+				LoggerNotUse:            true,
+				PubSubClientNotUse:      true,
+				MemoryStoreClientNotUse: true,
 			},
 		},
 		{
@@ -153,6 +171,7 @@ func Test(t *testing.T) {
 				dcliFirebase *cgcp.MockFirebaseFirestoreClient,
 				acliFirebase *cgcp.MockFirebaseAuthClient,
 				pcli *cgcp.MockGCPPubSubClient,
+				mcli *cgcp.MockMemoryStoreClient,
 			) {
 				appFirebase.
 					EXPECT().Auth(gomock.Any()).Return(acliFirebase, nil)
@@ -162,14 +181,16 @@ func Test(t *testing.T) {
 				fcli cgcp.FirebaseFirestoreClient,
 				fauth cgcp.FirebaseAuthClient,
 				pcli cgcp.GCPPubSubClient,
+				mcli cgcp.MemoryStoreClient,
 			) error {
 				return nil
 			},
 			inputOpt: &HO{
-				FirestoreClientNotUse: true,
-				AuthClientNotUse:      false,
-				LoggerNotUse:          true,
-				PubSubClientNotUse:    true,
+				FirestoreClientNotUse:   true,
+				AuthClientNotUse:        false,
+				LoggerNotUse:            true,
+				PubSubClientNotUse:      true,
+				MemoryStoreClientNotUse: true,
 			},
 		},
 		{
@@ -182,6 +203,7 @@ func Test(t *testing.T) {
 				dcliFirebase *cgcp.MockFirebaseFirestoreClient,
 				acliFirebase *cgcp.MockFirebaseAuthClient,
 				pcli *cgcp.MockGCPPubSubClient,
+				mcli *cgcp.MockMemoryStoreClient,
 			) {
 				app.
 					EXPECT().Logger(gomock.Any()).Return(logger)
@@ -193,14 +215,16 @@ func Test(t *testing.T) {
 				fcli cgcp.FirebaseFirestoreClient,
 				fauth cgcp.FirebaseAuthClient,
 				pcli cgcp.GCPPubSubClient,
+				mcli cgcp.MemoryStoreClient,
 			) error {
 				return nil
 			},
 			inputOpt: &HO{
-				FirestoreClientNotUse: true,
-				AuthClientNotUse:      true,
-				LoggerNotUse:          false,
-				PubSubClientNotUse:    true,
+				FirestoreClientNotUse:   true,
+				AuthClientNotUse:        true,
+				LoggerNotUse:            false,
+				PubSubClientNotUse:      true,
+				MemoryStoreClientNotUse: true,
 			},
 		},
 		{
@@ -213,6 +237,7 @@ func Test(t *testing.T) {
 				dcliFirebase *cgcp.MockFirebaseFirestoreClient,
 				acliFirebase *cgcp.MockFirebaseAuthClient,
 				pcli *cgcp.MockGCPPubSubClient,
+				mcli *cgcp.MockMemoryStoreClient,
 			) {
 				appGCP.
 					EXPECT().PubSub(gomock.Any()).Return(pcli, nil)
@@ -224,14 +249,50 @@ func Test(t *testing.T) {
 				fcli cgcp.FirebaseFirestoreClient,
 				fauth cgcp.FirebaseAuthClient,
 				pcli cgcp.GCPPubSubClient,
+				mcli cgcp.MemoryStoreClient,
 			) error {
 				return nil
 			},
 			inputOpt: &HO{
-				FirestoreClientNotUse: true,
-				AuthClientNotUse:      true,
-				LoggerNotUse:          true,
-				PubSubClientNotUse:    false,
+				FirestoreClientNotUse:   true,
+				AuthClientNotUse:        true,
+				LoggerNotUse:            true,
+				PubSubClientNotUse:      false,
+				MemoryStoreClientNotUse: true,
+			},
+		},
+		{
+			desc: "Use memorystore only",
+			setUpMock: func(
+				app *application.MockApplicationLogger,
+				logger *clogger.MockLogger,
+				appFirebase *cgcp.MockFirebaseApp,
+				appGCP *cgcp.MockGCPApp,
+				dcliFirebase *cgcp.MockFirebaseFirestoreClient,
+				acliFirebase *cgcp.MockFirebaseAuthClient,
+				pcli *cgcp.MockGCPPubSubClient,
+				mcli *cgcp.MockMemoryStoreClient,
+			) {
+				appGCP.
+					EXPECT().MemoryStore(gomock.Any()).Return(mcli, nil)
+				mcli.
+					EXPECT().Close()
+			},
+			inputProc: func(
+				logger clogger.Logger,
+				fcli cgcp.FirebaseFirestoreClient,
+				fauth cgcp.FirebaseAuthClient,
+				pcli cgcp.GCPPubSubClient,
+				mcli cgcp.MemoryStoreClient,
+			) error {
+				return nil
+			},
+			inputOpt: &HO{
+				FirestoreClientNotUse:   true,
+				AuthClientNotUse:        true,
+				LoggerNotUse:            true,
+				PubSubClientNotUse:      true,
+				MemoryStoreClientNotUse: false,
 			},
 		},
 		{
@@ -244,6 +305,7 @@ func Test(t *testing.T) {
 				dcliFirebase *cgcp.MockFirebaseFirestoreClient,
 				acliFirebase *cgcp.MockFirebaseAuthClient,
 				pcli *cgcp.MockGCPPubSubClient,
+				mcli *cgcp.MockMemoryStoreClient,
 			) {
 				app.
 					EXPECT().Logger(gomock.Any()).Return(logger)
@@ -259,14 +321,16 @@ func Test(t *testing.T) {
 				fcli cgcp.FirebaseFirestoreClient,
 				fauth cgcp.FirebaseAuthClient,
 				pcli cgcp.GCPPubSubClient,
+				mcli cgcp.MemoryStoreClient,
 			) error {
 				return nil
 			},
 			inputOpt: &HO{
-				FirestoreClientNotUse: false,
-				AuthClientNotUse:      true,
-				LoggerNotUse:          false,
-				PubSubClientNotUse:    true,
+				FirestoreClientNotUse:   false,
+				AuthClientNotUse:        true,
+				LoggerNotUse:            false,
+				PubSubClientNotUse:      true,
+				MemoryStoreClientNotUse: true,
 			},
 			expectedResponse: &http.Response{
 				StatusCode: http.StatusInternalServerError,
@@ -282,6 +346,7 @@ func Test(t *testing.T) {
 				dcliFirebase *cgcp.MockFirebaseFirestoreClient,
 				acliFirebase *cgcp.MockFirebaseAuthClient,
 				pcli *cgcp.MockGCPPubSubClient,
+				mcli *cgcp.MockMemoryStoreClient,
 			) {
 				app.
 					EXPECT().Logger(gomock.Any()).Return(logger)
@@ -297,14 +362,16 @@ func Test(t *testing.T) {
 				fcli cgcp.FirebaseFirestoreClient,
 				fauth cgcp.FirebaseAuthClient,
 				pcli cgcp.GCPPubSubClient,
+				mcli cgcp.MemoryStoreClient,
 			) error {
 				return nil
 			},
 			inputOpt: &HO{
-				FirestoreClientNotUse: true,
-				AuthClientNotUse:      false,
-				LoggerNotUse:          false,
-				PubSubClientNotUse:    true,
+				FirestoreClientNotUse:   true,
+				AuthClientNotUse:        false,
+				LoggerNotUse:            false,
+				PubSubClientNotUse:      true,
+				MemoryStoreClientNotUse: true,
 			},
 			expectedResponse: &http.Response{
 				StatusCode: http.StatusInternalServerError,
@@ -320,6 +387,7 @@ func Test(t *testing.T) {
 				dcliFirebase *cgcp.MockFirebaseFirestoreClient,
 				acliFirebase *cgcp.MockFirebaseAuthClient,
 				pcli *cgcp.MockGCPPubSubClient,
+				mcli *cgcp.MockMemoryStoreClient,
 			) {
 				app.
 					EXPECT().Logger(gomock.Any()).Return(logger)
@@ -335,14 +403,57 @@ func Test(t *testing.T) {
 				fcli cgcp.FirebaseFirestoreClient,
 				fauth cgcp.FirebaseAuthClient,
 				pcli cgcp.GCPPubSubClient,
+				mcli cgcp.MemoryStoreClient,
 			) error {
 				return nil
 			},
 			inputOpt: &HO{
-				FirestoreClientNotUse: true,
-				AuthClientNotUse:      true,
-				LoggerNotUse:          false,
-				PubSubClientNotUse:    false,
+				FirestoreClientNotUse:   true,
+				AuthClientNotUse:        true,
+				LoggerNotUse:            false,
+				PubSubClientNotUse:      false,
+				MemoryStoreClientNotUse: true,
+			},
+			expectedResponse: &http.Response{
+				StatusCode: http.StatusInternalServerError,
+			},
+		},
+		{
+			desc: "Error MemoryStore",
+			setUpMock: func(
+				app *application.MockApplicationLogger,
+				logger *clogger.MockLogger,
+				appFirebase *cgcp.MockFirebaseApp,
+				appGCP *cgcp.MockGCPApp,
+				dcliFirebase *cgcp.MockFirebaseFirestoreClient,
+				acliFirebase *cgcp.MockFirebaseAuthClient,
+				pcli *cgcp.MockGCPPubSubClient,
+				mcli *cgcp.MockMemoryStoreClient,
+			) {
+				app.
+					EXPECT().Logger(gomock.Any()).Return(logger)
+				logger.
+					EXPECT().Close()
+				appGCP.
+					EXPECT().MemoryStore(gomock.Any()).Return(mcli, fmt.Errorf("Dummy error"))
+				logger.
+					EXPECT().Errorf(gomock.Any(), gomock.Any())
+			},
+			inputProc: func(
+				logger clogger.Logger,
+				fcli cgcp.FirebaseFirestoreClient,
+				fauth cgcp.FirebaseAuthClient,
+				pcli cgcp.GCPPubSubClient,
+				mcli cgcp.MemoryStoreClient,
+			) error {
+				return nil
+			},
+			inputOpt: &HO{
+				FirestoreClientNotUse:   true,
+				AuthClientNotUse:        true,
+				LoggerNotUse:            false,
+				PubSubClientNotUse:      true,
+				MemoryStoreClientNotUse: false,
 			},
 			expectedResponse: &http.Response{
 				StatusCode: http.StatusInternalServerError,
@@ -358,6 +469,7 @@ func Test(t *testing.T) {
 				dcliFirebase *cgcp.MockFirebaseFirestoreClient,
 				acliFirebase *cgcp.MockFirebaseAuthClient,
 				pcli *cgcp.MockGCPPubSubClient,
+				mcli *cgcp.MockMemoryStoreClient,
 			) {
 				app.
 					EXPECT().Logger(gomock.Any()).Return(logger)
@@ -371,14 +483,16 @@ func Test(t *testing.T) {
 				fcli cgcp.FirebaseFirestoreClient,
 				fauth cgcp.FirebaseAuthClient,
 				pcli cgcp.GCPPubSubClient,
+				mcli cgcp.MemoryStoreClient,
 			) error {
 				return fmt.Errorf("Dummy error")
 			},
 			inputOpt: &HO{
-				FirestoreClientNotUse: true,
-				AuthClientNotUse:      true,
-				LoggerNotUse:          false,
-				PubSubClientNotUse:    true,
+				FirestoreClientNotUse:   true,
+				AuthClientNotUse:        true,
+				LoggerNotUse:            false,
+				PubSubClientNotUse:      true,
+				MemoryStoreClientNotUse: true,
 			},
 		},
 	}
@@ -405,6 +519,9 @@ func Test(t *testing.T) {
 			ctrlPubSubClient := gomock.NewController(t)
 			defer ctrlPubSubClient.Finish()
 			cliPubSubClient := cgcp.NewMockGCPPubSubClient(ctrlPubSubClient)
+			ctrlMemoryStoreClient := gomock.NewController(t)
+			defer ctrlMemoryStoreClient.Finish()
+			cliMemoryStore := cgcp.NewMockMemoryStoreClient(ctrlMemoryStoreClient)
 			tC.setUpMock(
 				app,
 				logger,
@@ -413,8 +530,8 @@ func Test(t *testing.T) {
 				cliFirestoreFirebase,
 				cliAuthFirebase,
 				cliPubSubClient,
+				cliMemoryStore,
 			)
-			// _, _ := http.NewRequest("GET", "/dummy", nil)
 			rec := httptest.NewRecorder()
 			ctx, _ := gin.CreateTestContext(rec)
 			H(

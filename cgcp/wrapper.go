@@ -6,6 +6,8 @@ import (
 	"cloud.google.com/go/pubsub"
 	firebase "firebase.google.com/go"
 	"firebase.google.com/go/auth"
+	"github.com/go-redis/redis/v7"
+	env "github.com/suzuito/common-env"
 )
 
 // FirebaseApp ...
@@ -53,23 +55,36 @@ type FirebaseAuthClient interface {
 // GCPApp ...
 type GCPApp interface {
 	PubSub(ctx context.Context) (GCPPubSubClient, error)
+	MemoryStore(ctx context.Context) (MemoryStoreClient, error)
 }
 
 // GCPAppImpl ...
 type GCPAppImpl struct {
-	projectID string
+	redisClient *redis.Client
+	redisTTL    int
+	projectID   string
 }
 
 // NewGCPAppImpl ...
 func NewGCPAppImpl(ctx context.Context, projectID string) (*GCPAppImpl, error) {
+	redisClient := redis.NewClient(&redis.Options{
+		Addr: env.GetenvAsString("REDIS_ADDR", "localhost:6379"),
+	})
 	return &GCPAppImpl{
-		projectID: projectID,
+		redisClient: redisClient,
+		redisTTL:    env.GetenvAsInt("REDIS_TTL", 1800),
+		projectID:   projectID,
 	}, nil
 }
 
 // PubSub ...
 func (f *GCPAppImpl) PubSub(ctx context.Context) (GCPPubSubClient, error) {
 	return pubsub.NewClient(ctx, f.projectID)
+}
+
+// MemoryStore ...
+func (f *GCPAppImpl) MemoryStore(ctx context.Context) (MemoryStoreClient, error) {
+	return NewMemoryStoreClientRedis(f.redisClient, f.redisTTL), nil
 }
 
 // GCPPubSubClient ...

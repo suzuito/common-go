@@ -1,3 +1,7 @@
+# v0.3.0
+
+- Add MemoryStore impl
+
 # v0.2.0
 
 - Add PubSub impl
