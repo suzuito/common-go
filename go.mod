@@ -9,6 +9,7 @@ require (
 	firebase.google.com/go v3.12.0+incompatible
 	github.com/gin-contrib/cors v1.3.0
 	github.com/gin-gonic/gin v1.5.0
+	github.com/go-redis/redis/v7 v7.2.0
 	github.com/golang/mock v1.4.0
 	github.com/golang/protobuf v1.3.4 // indirect
 	github.com/stretchr/testify v1.4.0
