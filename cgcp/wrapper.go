@@ -66,10 +66,14 @@ type GCPAppImpl struct {
 }
 
 // NewGCPAppImpl ...
-func NewGCPAppImpl(ctx context.Context, projectID string) (*GCPAppImpl, error) {
-	redisClient := redis.NewClient(&redis.Options{
-		Addr: env.GetenvAsString("REDIS_ADDR", "localhost:6379"),
-	})
+func NewGCPAppImpl(
+	ctx context.Context,
+	redisClient *redis.Client,
+	projectID string,
+) (*GCPAppImpl, error) {
+	// redisClient := redis.NewClient(&redis.Options{
+	// 	Addr: env.GetenvAsString("REDIS_ADDR", "localhost:6379"),
+	// })
 	return &GCPAppImpl{
 		redisClient: redisClient,
 		redisTTL:    env.GetenvAsInt("REDIS_TTL", 1800),
