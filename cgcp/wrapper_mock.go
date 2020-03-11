@@ -177,6 +177,21 @@ func (mr *MockGCPAppMockRecorder) PubSub(ctx interface{}) *gomock.Call {
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "PubSub", reflect.TypeOf((*MockGCPApp)(nil).PubSub), ctx)
 }
 
+// MemoryStore mocks base method
+func (m *MockGCPApp) MemoryStore(ctx context.Context) (MemoryStoreClient, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "MemoryStore", ctx)
+	ret0, _ := ret[0].(MemoryStoreClient)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// MemoryStore indicates an expected call of MemoryStore
+func (mr *MockGCPAppMockRecorder) MemoryStore(ctx interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "MemoryStore", reflect.TypeOf((*MockGCPApp)(nil).MemoryStore), ctx)
+}
+
 // MockGCPPubSubClient is a mock of GCPPubSubClient interface
 type MockGCPPubSubClient struct {
 	ctrl     *gomock.Controller

@@ -53,23 +53,35 @@ type FirebaseAuthClient interface {
 // GCPApp ...
 type GCPApp interface {
 	PubSub(ctx context.Context) (GCPPubSubClient, error)
+	MemoryStore(ctx context.Context) (MemoryStoreClient, error)
 }
 
 // GCPAppImpl ...
 type GCPAppImpl struct {
-	projectID string
+	memoryStoreClient MemoryStoreClient
+	projectID         string
 }
 
 // NewGCPAppImpl ...
-func NewGCPAppImpl(ctx context.Context, projectID string) (*GCPAppImpl, error) {
+func NewGCPAppImpl(
+	ctx context.Context,
+	memoryStoreClient MemoryStoreClient,
+	projectID string,
+) (*GCPAppImpl, error) {
 	return &GCPAppImpl{
-		projectID: projectID,
+		memoryStoreClient: memoryStoreClient,
+		projectID:         projectID,
 	}, nil
 }
 
 // PubSub ...
 func (f *GCPAppImpl) PubSub(ctx context.Context) (GCPPubSubClient, error) {
 	return pubsub.NewClient(ctx, f.projectID)
+}
+
+// MemoryStore ...
+func (f *GCPAppImpl) MemoryStore(ctx context.Context) (MemoryStoreClient, error) {
+	return f.memoryStoreClient, nil
 }
 
 // GCPPubSubClient ...

@@ -12,10 +12,11 @@ import (
 
 // HO ...
 type HO struct {
-	FirestoreClientNotUse bool
-	AuthClientNotUse      bool
-	LoggerNotUse          bool
-	PubSubClientNotUse    bool
+	FirestoreClientNotUse   bool
+	AuthClientNotUse        bool
+	LoggerNotUse            bool
+	PubSubClientNotUse      bool
+	MemoryStoreClientNotUse bool
 }
 
 // H ...
@@ -29,6 +30,7 @@ func H(
 		fcli cgcp.FirebaseFirestoreClient,
 		fauth cgcp.FirebaseAuthClient,
 		pcli cgcp.GCPPubSubClient,
+		mcli cgcp.MemoryStoreClient,
 	) error,
 	opt *HO,
 ) {
@@ -36,12 +38,13 @@ func H(
 	var fcli cgcp.FirebaseFirestoreClient
 	var fauth cgcp.FirebaseAuthClient
 	var pcli cgcp.GCPPubSubClient
+	var mcli cgcp.MemoryStoreClient
 	var err error
 	if opt == nil || opt.LoggerNotUse == false {
 		logger = app.Logger(ctx)
 		defer logger.Close()
 	}
-	if opt == nil || opt.FirestoreClientNotUse == false || opt.AuthClientNotUse == false || opt.PubSubClientNotUse == false {
+	if opt == nil || opt.FirestoreClientNotUse == false || opt.AuthClientNotUse == false || opt.PubSubClientNotUse == false || opt.MemoryStoreClientNotUse == false {
 		if opt == nil || opt.FirestoreClientNotUse == false {
 			fcli, err = appFirebase.Firestore(ctx)
 			if err != nil {
@@ -74,8 +77,19 @@ func H(
 			}
 			defer pcli.Close()
 		}
+		if opt == nil || opt.MemoryStoreClientNotUse == false {
+			mcli, err = appGCP.MemoryStore(ctx)
+			if err != nil {
+				if logger != nil {
+					logger.Errorf("%+v", err)
+				}
+				cgin.Abort(ctx, cgin.NewHTTPError(http.StatusInternalServerError, "InternalServerError", err))
+				return
+			}
+			defer mcli.Close()
+		}
 	}
-	if err := proc(logger, fcli, fauth, pcli); err != nil {
+	if err := proc(logger, fcli, fauth, pcli, mcli); err != nil {
 		if logger != nil {
 			logger.Errorf("%+v", err)
 		}
