@@ -2,7 +2,6 @@ package clogger
 
 import (
 	"fmt"
-	"net/http"
 	"os"
 	"runtime"
 )
@@ -11,8 +10,6 @@ import (
 type Logger interface {
 	Infof(format string, a ...interface{})
 	Errorf(format string, a ...interface{})
-	Request(req *http.Request)
-	Close()
 }
 
 // LoggerPrint ...
