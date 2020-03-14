@@ -4,6 +4,7 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	env "github.com/suzuito/common-env"
 	"github.com/suzuito/common-go/application"
 	"github.com/suzuito/common-go/cgcp"
 	"github.com/suzuito/common-go/cgin"
@@ -41,7 +42,10 @@ func H(
 	var mcli cgcp.MemoryStoreClient
 	var err error
 	if opt == nil || opt.LoggerNotUse == false {
-		logger = app.Logger(ctx)
+		logger, err = cgcp.NewLoggerGCP2(ctx, env.GetenvAsString("GOOGLE_CLOUD_PROJECT", ""), ctx.Request)
+		if err != nil {
+			logger = &clogger.LoggerPrint{}
+		}
 		defer logger.Close()
 	}
 	if opt == nil || opt.FirestoreClientNotUse == false || opt.AuthClientNotUse == false || opt.PubSubClientNotUse == false || opt.MemoryStoreClientNotUse == false {
