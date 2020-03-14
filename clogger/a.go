@@ -10,7 +10,6 @@ import (
 type Logger interface {
 	Infof(format string, a ...interface{})
 	Errorf(format string, a ...interface{})
-	Close()
 }
 
 // LoggerPrint ...
@@ -27,8 +26,4 @@ func (l *LoggerPrint) Infof(format string, a ...interface{}) {
 func (l *LoggerPrint) Errorf(format string, a ...interface{}) {
 	_, fname, line, _ := runtime.Caller(1)
 	fmt.Fprintf(os.Stderr, format+fmt.Sprintf(" (%s:%d)\n", fname, line), a...)
-}
-
-// Close ...
-func (l *LoggerPrint) Close() {
 }

@@ -1,3 +1,7 @@
+# v0.4.0
+
+- Remove helper functions
+
 # v0.3.0
 
 - Add MemoryStore impl
