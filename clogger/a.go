@@ -11,7 +11,7 @@ import (
 type Logger interface {
 	Infof(format string, a ...interface{})
 	Errorf(format string, a ...interface{})
-	Requestf(req *http.Request, status int, format string, a ...interface{})
+	Request(req *http.Request)
 	Close()
 }
 
@@ -31,8 +31,8 @@ func (l *LoggerPrint) Errorf(format string, a ...interface{}) {
 	fmt.Fprintf(os.Stderr, format+fmt.Sprintf(" (%s:%d)\n", fname, line), a...)
 }
 
-// Requestf ...
-func (l *LoggerPrint) Requestf(req *http.Request, status int, format string, a ...interface{}) {}
+// Request ...
+func (l *LoggerPrint) Request(req *http.Request) {}
 
 // Close ...
 func (l *LoggerPrint) Close() {

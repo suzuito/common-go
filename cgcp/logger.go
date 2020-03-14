@@ -33,7 +33,7 @@ func (l *LoggerGCP) Errorf(format string, a ...interface{}) {
 }
 
 // Requestf ...
-func (l *LoggerGCP) Requestf(req *http.Request, status int, format string, a ...interface{}) {
+func (l *LoggerGCP) Request(req *http.Request) {
 	logger := l.cli.Logger("api")
 	logger.Log(logging.Entry{
 		HTTPRequest: &logging.HTTPRequest{

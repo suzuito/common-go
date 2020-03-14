@@ -46,6 +46,7 @@ func H(
 		if err != nil {
 			logger = &clogger.LoggerPrint{}
 		}
+		defer logger.Request(ctx.Request)
 		defer logger.Close()
 	}
 	if opt == nil || opt.FirestoreClientNotUse == false || opt.AuthClientNotUse == false || opt.PubSubClientNotUse == false || opt.MemoryStoreClientNotUse == false {
