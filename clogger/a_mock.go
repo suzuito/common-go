@@ -65,15 +65,3 @@ func (mr *MockLoggerMockRecorder) Errorf(format interface{}, a ...interface{}) *
 	varargs := append([]interface{}{format}, a...)
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Errorf", reflect.TypeOf((*MockLogger)(nil).Errorf), varargs...)
 }
-
-// Close mocks base method
-func (m *MockLogger) Close() {
-	m.ctrl.T.Helper()
-	m.ctrl.Call(m, "Close")
-}
-
-// Close indicates an expected call of Close
-func (mr *MockLoggerMockRecorder) Close() *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Close", reflect.TypeOf((*MockLogger)(nil).Close))
-}
