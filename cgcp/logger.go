@@ -41,6 +41,8 @@ func (l *LoggerGCP) Request(req *http.Request) {
 	}
 	if req.Response != nil {
 		e.HTTPRequest.Status = req.Response.StatusCode
+	} else {
+		e.HTTPRequest.Status = 500
 	}
 	logger := l.cli.Logger("api")
 	logger.Log(e)
