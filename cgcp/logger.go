@@ -32,14 +32,18 @@ func (l *LoggerGCP) Errorf(format string, a ...interface{}) {
 	l.log(logging.Error, format, a...)
 }
 
-// Requestf ...
+// Request ...
 func (l *LoggerGCP) Request(req *http.Request) {
-	logger := l.cli.Logger("api")
-	logger.Log(logging.Entry{
+	e := logging.Entry{
 		HTTPRequest: &logging.HTTPRequest{
 			Request: req,
 		},
-	})
+	}
+	if req.Response != nil {
+		e.HTTPRequest.Status = req.Response.StatusCode
+	}
+	logger := l.cli.Logger("api")
+	logger.Log(e)
 }
 
 // Close ...
