@@ -15,11 +15,5 @@ $(go env GOPATH)/bin/mockgen \
 $(go env GOPATH)/bin/mockgen \
     --self_package=github.com/suzuito/common-go/cgcp \
     --package=cgcp \
-    --source=cgcp/wrapper.go \
-    --destination=cgcp/wrapper_mock.go
-
-$(go env GOPATH)/bin/mockgen \
-    --self_package=github.com/suzuito/common-go/cgcp \
-    --package=cgcp \
     --source=cgcp/memorystore.go \
     --destination=cgcp/memorystore_mock.go
