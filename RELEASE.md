@@ -1,3 +1,7 @@
+# v0.5.0
+
+- Add GetInt and SetInt into memorystore.go
+
 # v0.4.0
 
 - Remove helper functions
