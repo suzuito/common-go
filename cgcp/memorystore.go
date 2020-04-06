@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"strconv"
 	"time"
 
 	"github.com/go-redis/redis/v7"
@@ -19,6 +20,8 @@ var (
 type MemoryStoreClient interface {
 	GetJSON(ctx context.Context, key string, value interface{}) error
 	SetJSON(ctx context.Context, key string, value interface{}) error
+	GetInt(ctx context.Context, key string, value *int) error
+	SetInt(ctx context.Context, key string, value int) error
 	Delete(ctx context.Context, keys ...string) error
 	Close() error
 }
@@ -48,6 +51,10 @@ func (c *MemoryStoreClientRedis) getString(ctx context.Context, key string, valu
 	return nil
 }
 
+func (c *MemoryStoreClientRedis) setString(ctx context.Context, key string, value string) error {
+	return c.cli.Set(key, value, time.Duration(c.ttl)*time.Second).Err()
+}
+
 // GetJSON ...
 func (c *MemoryStoreClientRedis) GetJSON(ctx context.Context, key string, value interface{}) error {
 	valueString := ""
@@ -57,10 +64,6 @@ func (c *MemoryStoreClientRedis) GetJSON(ctx context.Context, key string, value 
 	return json.Unmarshal([]byte(valueString), value)
 }
 
-func (c *MemoryStoreClientRedis) setString(ctx context.Context, key string, value string) error {
-	return c.cli.Set(key, value, time.Duration(c.ttl)*time.Second).Err()
-}
-
 // SetJSON ...
 func (c *MemoryStoreClientRedis) SetJSON(ctx context.Context, key string, value interface{}) error {
 	b, err := json.Marshal(value)
@@ -68,6 +71,27 @@ func (c *MemoryStoreClientRedis) SetJSON(ctx context.Context, key string, value 
 		return err
 	}
 	return c.setString(ctx, key, string(b))
+}
+
+// GetInt ...
+func (c *MemoryStoreClientRedis) GetInt(ctx context.Context, key string, value *int) error {
+	var err error
+	v := ""
+	if err = c.getString(ctx, key, &v); err != nil {
+		return err
+	}
+	*value, err = strconv.Atoi(v)
+	return err
+}
+
+// SetInt ...
+func (c *MemoryStoreClientRedis) SetInt(ctx context.Context, key string, value int) error {
+	var err error
+	v := strconv.Itoa(value)
+	if err = c.setString(ctx, key, v); err != nil {
+		return err
+	}
+	return err
 }
 
 // Delete ...

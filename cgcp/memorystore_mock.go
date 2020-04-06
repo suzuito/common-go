@@ -61,6 +61,34 @@ func (mr *MockMemoryStoreClientMockRecorder) SetJSON(ctx, key, value interface{}
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetJSON", reflect.TypeOf((*MockMemoryStoreClient)(nil).SetJSON), ctx, key, value)
 }
 
+// GetInt mocks base method
+func (m *MockMemoryStoreClient) GetInt(ctx context.Context, key string, value *int) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetInt", ctx, key, value)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// GetInt indicates an expected call of GetInt
+func (mr *MockMemoryStoreClientMockRecorder) GetInt(ctx, key, value interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetInt", reflect.TypeOf((*MockMemoryStoreClient)(nil).GetInt), ctx, key, value)
+}
+
+// SetInt mocks base method
+func (m *MockMemoryStoreClient) SetInt(ctx context.Context, key string, value int) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "SetInt", ctx, key, value)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// SetInt indicates an expected call of SetInt
+func (mr *MockMemoryStoreClientMockRecorder) SetInt(ctx, key, value interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetInt", reflect.TypeOf((*MockMemoryStoreClient)(nil).SetInt), ctx, key, value)
+}
+
 // Delete mocks base method
 func (m *MockMemoryStoreClient) Delete(ctx context.Context, keys ...string) error {
 	m.ctrl.T.Helper()
