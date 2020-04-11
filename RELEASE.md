@@ -1,3 +1,7 @@
+# v0.6.0
+
+- Add DefaultQueryAsBool
+
 # v0.5.0
 
 - Add GetInt and SetInt into memorystore.go

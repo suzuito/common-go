@@ -57,3 +57,16 @@ func DefaultQueryAsFloat64(ctx *gin.Context, name string, dflt float64) float64 
 	}
 	return vv
 }
+
+// DefaultQueryAsBool ...
+func DefaultQueryAsBool(ctx *gin.Context, name string, dflt bool) bool {
+	v := ctx.Query(name)
+	if v == "" {
+		return dflt
+	}
+	vv, err := strconv.ParseBool(v)
+	if err != nil {
+		return dflt
+	}
+	return vv
+}
