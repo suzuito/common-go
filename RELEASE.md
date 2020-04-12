@@ -1,3 +1,7 @@
+# v0.7.0
+
+- Delete werror pkg
+
 # v0.6.0
 
 - Add DefaultQueryAsBool
