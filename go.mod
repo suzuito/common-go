@@ -20,6 +20,7 @@ require (
 	golang.org/x/net v0.0.0-20200226121028-0de0cce0169b // indirect
 	golang.org/x/sys v0.0.0-20200223170610-d5e6a3e2c0ae // indirect
 	golang.org/x/tools v0.0.0-20200227222343-706bc42d1f0d // indirect
+	golang.org/x/xerrors v0.0.0-20191204190536-9bdfabe68543
 	google.golang.org/api v0.19.0
 	google.golang.org/genproto v0.0.0-20200227132054-3f1135a288c9 // indirect
 	gopkg.in/go-playground/assert.v1 v1.2.1
