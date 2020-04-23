@@ -11,7 +11,7 @@ func UseCORS(app ApplicationGin, root *gin.Engine) {
 		AllowOrigins:     app.AllowedOrigins(),
 		AllowMethods:     app.AllowedMethods(),
 		AllowHeaders:     app.AllowedHeaders(),
-		ExposeHeaders:    app.AllowedHeaders(),
+		ExposeHeaders:    app.ExposeHeaders(),
 		AllowCredentials: app.AllowedCredential(),
 		// AllowOriginFunc: func(origin string) bool {
 		// 	return origin == "https://github.com"
