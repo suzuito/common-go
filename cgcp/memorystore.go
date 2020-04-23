@@ -8,7 +8,7 @@ import (
 	"time"
 
 	"github.com/go-redis/redis/v7"
-	"github.com/suzuito/common-go/werror"
+	"golang.org/x/xerrors"
 )
 
 var (
@@ -44,7 +44,7 @@ func (c *MemoryStoreClientRedis) getString(ctx context.Context, key string, valu
 	var err error
 	*value, err = c.cli.Get(key).Result()
 	if err == redis.Nil {
-		return werror.Newf(ErrNotFound, "Not found key '%s'", key)
+		return xerrors.Errorf("Not found key '%s' : %w", ErrNotFound)
 	} else if err != nil {
 		return err
 	}
