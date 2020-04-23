@@ -1,6 +1,9 @@
-# v0.7.0
+# v0.8.0
 
 - Add ExposeHeaders of CORS
+
+# v0.7.0
+
 - Delete werror pkg
 
 # v0.6.0
