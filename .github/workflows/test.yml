@@ -18,8 +18,3 @@ jobs:
         with:
           name: coverage
           path: /tmp/artifacts
-      - uses: suzuito/create-release-by-file@v1.0.0
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          check_only: true
