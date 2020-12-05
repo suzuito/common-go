@@ -1,6 +1,11 @@
 name: test
 on:
   pull_request:
+  push:
+    branches:
+      - master
+    tags:
+      - '[0-9]+.[0-9]+.[0-9]+'
 jobs:
   test:
     name: Run unit test ${{ matrix.go }}
@@ -14,12 +19,7 @@ jobs:
         with:
           go-version: ${{ matrix.go }}
       - run: ./test
-      - uses: actions/upload-artifact@v1
+      - uses: actions/upload-artifact@v2
         with:
           name: coverage
-          path: /tmp/artifacts
-      - uses: suzuito/create-release-by-file@v1.0.0
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          check_only: true
+          path: /tmp/artifacts/index.html
