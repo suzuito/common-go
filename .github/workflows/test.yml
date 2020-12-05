@@ -11,7 +11,7 @@ jobs:
     name: Run unit test ${{ matrix.go }}
     strategy:
       matrix:
-        go: [ '1.12.x', '1.13.x' ]
+        go: [ '1.15.x' ]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
