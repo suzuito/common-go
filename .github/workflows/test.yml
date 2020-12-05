@@ -1,12 +1,18 @@
 name: test
 on:
   pull_request:
+  push:
+    branches:
+      - develop
+      - master
+    tags:
+      - v[0-9]+.[0-9]+.[0-9]+
 jobs:
   test:
     name: Run unit test ${{ matrix.go }}
     strategy:
       matrix:
-        go: [ '1.12.x', '1.13.x' ]
+        go: [ '1.15.x' ]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -14,12 +20,7 @@ jobs:
         with:
           go-version: ${{ matrix.go }}
       - run: ./test
-      - uses: actions/upload-artifact@v1
+      - uses: actions/upload-artifact@v2
         with:
           name: coverage
-          path: /tmp/artifacts
-      - uses: suzuito/create-release-by-file@v1.0.0
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          check_only: true
+          path: /tmp/artifacts/index.html
