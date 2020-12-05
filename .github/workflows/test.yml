@@ -1,6 +1,11 @@
 name: test
 on:
   pull_request:
+  push:
+    branches:
+      - master
+    tags:
+      - '[0-9]+.[0-9]+.[0-9]+'
 jobs:
   test:
     name: Run unit test ${{ matrix.go }}
