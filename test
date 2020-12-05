@@ -2,13 +2,14 @@
 
 set -e
 
-rm -rf /tmp/artifacts
-mkdir -p /tmp/artifacts
-go test -timeout 30s ./...
+DIR_ARTIFACTS=/tmp/artifacts
+FILE_COV=${DIR_ARTIFACTS}/main.cov
+FILE_HTML=${DIR_ARTIFACTS}/index.html
+
+rm -rf ${DIR_ARTIFACTS}
+mkdir -p ${DIR_ARTIFACTS}
+
+go test -timeout 30s -coverprofile=${FILE_COV} ./...
+go tool cover -html=${FILE_COV} -o ${FILE_HTML}
 
 set +e
-
-for n in cgin; do
-    mkdir -p /tmp/artifacts/go-code-cover/${n}
-    go test -coverprofile=/tmp/artifacts/go-code-cover/${n}.cov -timeout 30s github.com/suzuito/common-go/${n} && go tool cover -html=/tmp/artifacts/go-code-cover/${n}.cov -o /tmp/artifacts/go-code-cover/${n}.html
-done
