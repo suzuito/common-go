@@ -22,6 +22,8 @@ type MemoryStoreClient interface {
 	SetJSON(ctx context.Context, key string, value interface{}) error
 	GetInt(ctx context.Context, key string, value *int) error
 	SetInt(ctx context.Context, key string, value int) error
+	GetString(ctx context.Context, key string, value *string) error
+	SetString(ctx context.Context, key string, value string) error
 	Delete(ctx context.Context, keys ...string) error
 	Close() error
 }
@@ -92,6 +94,16 @@ func (c *MemoryStoreClientRedis) SetInt(ctx context.Context, key string, value i
 		return err
 	}
 	return err
+}
+
+// GetString ...
+func (c *MemoryStoreClientRedis) GetString(ctx context.Context, key string, value *string) error {
+	return c.getString(ctx, key, value)
+}
+
+// SetString ...
+func (c *MemoryStoreClientRedis) SetString(ctx context.Context, key string, value string) error {
+	return c.setString(ctx, key, value)
 }
 
 // Delete ...
