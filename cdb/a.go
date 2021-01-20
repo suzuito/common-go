@@ -25,3 +25,17 @@ func NewTCPMySQLURLString(u *url.URL) string {
 		u.RawQuery,
 	)
 }
+
+func NewLocalhostMySQLURLString(u *url.URL) string {
+	password, exists := u.User.Password()
+	if !exists {
+		password = ""
+	}
+	return fmt.Sprintf(
+		"%s:%s@tcp/%s?%s",
+		u.User.Username(),
+		password,
+		path.Base((u.Path)),
+		u.RawQuery,
+	)
+}
