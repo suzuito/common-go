@@ -28,7 +28,7 @@ func (c *SecretClientGCP) GetString(ctx context.Context, name string) (string, e
 	if err != nil {
 		return "", err
 	}
-	return string(b)
+	return string(b), nil
 }
 
 func NewSecretClientGCP(ctx context.Context) (*SecretClientGCP, error) {
