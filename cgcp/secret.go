@@ -26,7 +26,7 @@ func (c *SecretClientGCP) Get(ctx context.Context, name string) ([]byte, error) 
 func (c *SecretClientGCP) GetString(ctx context.Context, name string) (string, error) {
 	b, err := c.Get(ctx, name)
 	if err != nil {
-		return err
+		return "", err
 	}
 	return string(b)
 }
