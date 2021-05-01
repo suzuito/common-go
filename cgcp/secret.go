@@ -2,6 +2,7 @@ package cgcp
 
 import (
 	"context"
+	"os"
 
 	secretmanager "cloud.google.com/go/secretmanager/apiv1"
 	"golang.org/x/xerrors"
@@ -29,6 +30,18 @@ func (c *SecretClientGCP) GetString(ctx context.Context, name string) (string, e
 		return "", err
 	}
 	return string(b), nil
+}
+
+func (c *SecretClientGCP) ReplaceEnv(ctx context.Context, ekey string) error {
+	evalue := os.Getenv(ekey)
+	b, err := c.Get(ctx, evalue)
+	if err != nil {
+		return err
+	}
+	if err := os.Setenv(ekey, string(b)); err != nil {
+		return err
+	}
+	return nil
 }
 
 func NewSecretClientGCP(ctx context.Context) (*SecretClientGCP, error) {

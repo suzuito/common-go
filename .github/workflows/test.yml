@@ -3,10 +3,7 @@ on:
   pull_request:
   push:
     branches:
-      - develop
-      - master
-    tags:
-      - v[0-9]+.[0-9]+.[0-9]+
+      - main
 jobs:
   test:
     name: Run unit test ${{ matrix.go }}
