@@ -56,6 +56,11 @@ func (r *GCPContextResourceGenerator) GMS(cli *redis.Client, ttl int) {
 func (r *GCPContextResourceGenerator) Gen(ctx context.Context) (*GCPContextResource, error) {
 	var err error
 	ret := GCPContextResource{}
+	defer func() {
+		if err != nil {
+			ret.Close()
+		}
+	}()
 	if r.newGCS {
 		ret.GCS, err = storage.NewClient(ctx)
 		if err != nil {

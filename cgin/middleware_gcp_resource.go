@@ -18,6 +18,7 @@ func MiddlewareGCPResource(generator *cgcp.GCPContextResourceGenerator) gin.Hand
 			})
 			return
 		}
+		defer r.Close()
 		SetGCPResource(c, r)
 		c.Next()
 	}
