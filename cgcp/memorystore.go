@@ -119,5 +119,5 @@ func (c *MemoryStoreClientRedis) Delete(ctx context.Context, keys ...string) err
 
 // Close ...
 func (c *MemoryStoreClientRedis) Close() error {
-	return nil
+	return c.Close()
 }
