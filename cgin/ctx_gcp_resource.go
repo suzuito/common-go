@@ -8,7 +8,7 @@ import (
 const ctxGCPResource = "gcp_ctx_resource"
 
 func GetGCPResource(ctx *gin.Context) (*cgcp.GCPContextResource, error) {
-	v, err := getCtxVariable(ctx, ctxGCPResource, &cgcp.GCPContextResource{})
+	v, err := GetCtxVariable(ctx, ctxGCPResource, &cgcp.GCPContextResource{})
 	return v.(*cgcp.GCPContextResource), err
 }
 

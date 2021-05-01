@@ -11,7 +11,7 @@ import (
 var errNotFoundCtxVariable = fmt.Errorf("Not found ctx variable")
 var errCannotAssignableCtxVariable = fmt.Errorf("Cannot assignable ctx variable")
 
-func getCtxVariable(ctx *gin.Context, key string, targetType interface{}) (interface{}, error) {
+func GetCtxVariable(ctx *gin.Context, key string, targetType interface{}) (interface{}, error) {
 	v, exists := ctx.Get(key)
 	if !exists {
 		return nil, xerrors.Errorf("key '%s' : %w", key, errNotFoundCtxVariable)
