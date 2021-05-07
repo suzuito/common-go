@@ -78,7 +78,7 @@ func (r *GCPContextResourceGenerator) GCF() {
 }
 
 func (r *GCPContextResourceGenerator) GCPS(projectID string) {
-	r.newGCF = true
+	r.newGCPS = true
 	r.ProjectIDGCPS = projectID
 }
 
