@@ -20,10 +20,10 @@ type LoggerPrint struct {
 func (l *LoggerPrint) msg(level string, format string, a ...interface{}) string {
 	_, fname, line, _ := runtime.Caller(2)
 	s := fmt.Sprintf(format+fmt.Sprintf(" (%s:%d)\n", fname, line), a...)
-	s = level + " " + s
 	if l.ID != "" {
 		s = l.ID + " " + s
 	}
+	s = level + " " + s
 	return s
 }
 
