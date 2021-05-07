@@ -4,6 +4,7 @@ import (
 	"context"
 
 	"cloud.google.com/go/firestore"
+	"cloud.google.com/go/pubsub"
 	"cloud.google.com/go/storage"
 	firebase "firebase.google.com/go"
 	"github.com/go-redis/redis/v7"
@@ -11,9 +12,10 @@ import (
 )
 
 type GCPContextResource struct {
-	GCS *storage.Client
-	GCF *firestore.Client
-	GMS MemoryStoreClient
+	GCS  *storage.Client
+	GCF  *firestore.Client
+	GCPS *pubsub.Client
+	GMS  MemoryStoreClient
 }
 
 func (r *GCPContextResource) Close() []error {
@@ -33,15 +35,22 @@ func (r *GCPContextResource) Close() []error {
 			errs = append(errs, err)
 		}
 	}
+	if r.GCPS != nil {
+		if err := r.GCPS.Close(); err != nil {
+			errs = append(errs, err)
+		}
+	}
 	return errs
 }
 
 type GCPContextResourceGenerator struct {
-	newGCS      bool
-	newGCF      bool
-	newGMS      bool
-	redisClient *redis.Client
-	redisTTL    int
+	newGCS        bool
+	newGCF        bool
+	newGMS        bool
+	newGCPS       bool
+	ProjectIDGCPS string
+	redisClient   *redis.Client
+	redisTTL      int
 }
 
 func NewGCPContextResourceGenerator() *GCPContextResourceGenerator {
@@ -49,6 +58,7 @@ func NewGCPContextResourceGenerator() *GCPContextResourceGenerator {
 		newGCS:      false,
 		newGMS:      false,
 		newGCF:      false,
+		newGCPS:     false,
 		redisClient: nil,
 	}
 }
@@ -65,6 +75,11 @@ func (r *GCPContextResourceGenerator) GMS(cli *redis.Client, ttl int) {
 
 func (r *GCPContextResourceGenerator) GCF() {
 	r.newGCF = true
+}
+
+func (r *GCPContextResourceGenerator) GCPS(projectID string) {
+	r.newGCF = true
+	r.ProjectIDGCPS = projectID
 }
 
 func (r *GCPContextResourceGenerator) Gen(ctx context.Context) (*GCPContextResource, error) {
@@ -96,6 +111,12 @@ func (r *GCPContextResourceGenerator) Gen(ctx context.Context) (*GCPContextResou
 	}
 	if r.newGMS {
 		ret.GMS = NewMemoryStoreClientRedis(r.redisClient, r.redisTTL)
+	}
+	if r.newGCPS {
+		ret.GCPS, err = pubsub.NewClient(ctx, r.ProjectIDGCPS)
+		if err != nil {
+			return nil, xerrors.Errorf("Cannot pubsub.NewClient : %w", err)
+		}
 	}
 	return &ret, nil
 }
