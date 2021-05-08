@@ -4,7 +4,10 @@ go 1.15
 
 require (
 	cloud.google.com/go v0.81.0
+	cloud.google.com/go/firestore v1.5.0
+	cloud.google.com/go/pubsub v1.3.1
 	cloud.google.com/go/storage v1.10.0
+	firebase.google.com/go v3.13.0+incompatible
 	github.com/gin-contrib/cors v1.3.0
 	github.com/gin-gonic/gin v1.5.0
 	github.com/go-redis/redis/v7 v7.2.0
