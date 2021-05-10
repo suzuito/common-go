@@ -16,7 +16,7 @@ jobs:
       - uses: actions/setup-go@v1
         with:
           go-version: ${{ matrix.go }}
-      - run: ./test
+      - run: make test
       - uses: actions/upload-artifact@v2
         with:
           name: coverage
