@@ -24,6 +24,17 @@ func TestNewTCPMySQLURLString(t *testing.T) {
 			},
 			expected: "suzuito:aiueo@tcp(example.com)/database1?k1=v1&k2=v2",
 		},
+		{
+			desc: "",
+			input: url.URL{
+				Scheme:   "mysql",
+				User:     url.User("suzuito"),
+				Host:     "example.com",
+				Path:     "database1",
+				RawQuery: "k1=v1&k2=v2",
+			},
+			expected: "suzuito:aiueo@tcp(example.com)/database1?k1=v1&k2=v2",
+		},
 	}
 	for _, tC := range testCases {
 		t.Run(tC.desc, func(t *testing.T) {
@@ -44,6 +55,17 @@ func TestNewLocalhostMySQLURLString(t *testing.T) {
 			input: url.URL{
 				Scheme:   "mysql",
 				User:     url.UserPassword("suzuito", "aiueo"),
+				Host:     "example.com",
+				Path:     "database1",
+				RawQuery: "k1=v1&k2=v2",
+			},
+			expected: "suzuito:aiueo@tcp/database1?k1=v1&k2=v2",
+		},
+		{
+			desc: "",
+			input: url.URL{
+				Scheme:   "mysql",
+				User:     url.User("suzuito"),
 				Host:     "example.com",
 				Path:     "database1",
 				RawQuery: "k1=v1&k2=v2",
