@@ -33,7 +33,7 @@ func TestNewTCPMySQLURLString(t *testing.T) {
 				Path:     "database1",
 				RawQuery: "k1=v1&k2=v2",
 			},
-			expected: "suzuito:aiueo@tcp(example.com)/database1?k1=v1&k2=v2",
+			expected: "suzuito:@tcp(example.com)/database1?k1=v1&k2=v2",
 		},
 	}
 	for _, tC := range testCases {
@@ -70,7 +70,7 @@ func TestNewLocalhostMySQLURLString(t *testing.T) {
 				Path:     "database1",
 				RawQuery: "k1=v1&k2=v2",
 			},
-			expected: "suzuito:aiueo@tcp/database1?k1=v1&k2=v2",
+			expected: "suzuito:@tcp/database1?k1=v1&k2=v2",
 		},
 	}
 	for _, tC := range testCases {
