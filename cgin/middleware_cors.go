@@ -6,6 +6,7 @@ import (
 )
 
 // UseCORS ...
+// Deprecated:
 func UseCORS(app ApplicationGin, root *gin.Engine) {
 	root.Use(cors.New(cors.Config{
 		AllowOrigins:     app.AllowedOrigins(),
