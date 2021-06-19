@@ -6,7 +6,7 @@ require (
 	cloud.google.com/go v0.81.0
 	cloud.google.com/go/firestore v1.5.0
 	cloud.google.com/go/pubsub v1.3.1
-	cloud.google.com/go/storage v1.10.0
+	cloud.google.com/go/storage v1.15.0
 	firebase.google.com/go v3.13.0+incompatible
 	github.com/PuerkitoBio/goquery v1.7.0
 	github.com/gin-contrib/cors v1.3.0
@@ -18,6 +18,6 @@ require (
 	github.com/suzuito/common-env v1.0.1
 	github.com/yuin/goldmark v1.2.1
 	golang.org/x/xerrors v0.0.0-20200804184101-5ec99f83aff1
-	google.golang.org/genproto v0.0.0-20210402141018-6c239bbf2bb1
+	google.golang.org/genproto v0.0.0-20210420162539-3c870d7478d2
 	gopkg.in/yaml.v2 v2.2.4
 )
