@@ -15,11 +15,18 @@ var ErrMetaNotFound = fmt.Errorf("Meta not found")
 
 type CMMeta struct {
 	Title       string `yaml:"title"`
-	TagsString  string `yaml:"tags"`
-	Tags        []string
+	Tags        string `yaml:"tags"`
 	Description string `yaml:"description"`
-	DateString  string `yaml:"date"`
-	Date        time.Time
+	Date        string `yaml:"date"`
+}
+
+func (c *CMMeta) TagsAsSlice() []string {
+	return strings.Split(c.Tags, ",")
+}
+
+func (c *CMMeta) DateAsTime() time.Time {
+	r, _ := time.Parse("2006-01-02", c.Date)
+	return r
 }
 
 func parseMeta(source []byte, embedMeta *CMMeta) error {
@@ -51,11 +58,5 @@ func parseMeta(source []byte, embedMeta *CMMeta) error {
 	if err := yaml.Unmarshal([]byte(metaBlock), &embedMeta); err != nil {
 		return xerrors.Errorf("Cannot parse yaml block '%s' : %w", metaBlock, err)
 	}
-	var err error
-	embedMeta.Date, err = time.Parse("2006-01-02", embedMeta.DateString)
-	if err != nil {
-		return xerrors.Errorf("Cannot parse date '%s' : %w", embedMeta.Date, err)
-	}
-	embedMeta.Tags = strings.Split(embedMeta.TagsString, ",")
 	return nil
 }
