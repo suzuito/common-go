@@ -14,12 +14,12 @@ import (
 var ErrMetaNotFound = fmt.Errorf("Meta not found")
 
 type CMMeta struct {
-	Title       string    `yaml:"title"`
-	TagsString  string    `yaml:"tagsString"`
-	Tags        []string  `yaml:"tags"`
-	Description string    `yaml:"description"`
-	DateString  string    `yaml:"dateString"`
-	Date        time.Time `yaml:"date"`
+	Title       string `yaml:"title"`
+	TagsString  string `yaml:"tags"`
+	Tags        []string
+	Description string `yaml:"description"`
+	DateString  string `yaml:"date"`
+	Date        time.Time
 }
 
 func parseMeta(source []byte, embedMeta *CMMeta) error {
