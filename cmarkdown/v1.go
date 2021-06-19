@@ -88,8 +88,12 @@ func (g *V1) Convert(
 	tocs *[]CMTOC,
 	images *[]CMImage,
 ) error {
+	sourceWithoutMeta := []byte{}
+	if err := parseMeta(source, meta, &sourceWithoutMeta); err != nil {
+		return xerrors.Errorf("parseMeta : %w", err)
+	}
 	tempHTML := bytes.NewBufferString("")
-	if err := g.md.Convert(source, tempHTML); err != nil {
+	if err := g.md.Convert(sourceWithoutMeta, tempHTML); err != nil {
 		return xerrors.Errorf("Cannot convert : %w", err)
 	}
 	tempDoc, err := goquery.NewDocumentFromReader(bytes.NewReader(tempHTML.Bytes()))
@@ -121,8 +125,5 @@ func (g *V1) Convert(
 	returned = strings.Replace(returned, "<html><head></head><body>", "", 1)
 	returned = strings.Replace(returned, "</body></html>", "", 1)
 	fmt.Fprint(w, returned)
-	if err := parseMeta(source, meta); err != nil {
-		return xerrors.Errorf("parseMeta : %w", err)
-	}
 	return nil
 }

@@ -25,7 +25,7 @@ func (c *CMMeta) DateAsTime() time.Time {
 	return r
 }
 
-func parseMeta(source []byte, embedMeta *CMMeta) error {
+func parseMeta(source []byte, embedMeta *CMMeta, sourceWithOutMeta *[]byte) error {
 	s := bufio.NewScanner(bytes.NewReader(source))
 	isMetaBlock := false
 	isMetaBlockDone := false
@@ -54,5 +54,6 @@ func parseMeta(source []byte, embedMeta *CMMeta) error {
 	if err := yaml.Unmarshal([]byte(metaBlock), &embedMeta); err != nil {
 		return xerrors.Errorf("Cannot parse yaml block '%s' : %w", metaBlock, err)
 	}
+	*sourceWithOutMeta = []byte(notMetaBlock)
 	return nil
 }
