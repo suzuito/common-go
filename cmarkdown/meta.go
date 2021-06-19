@@ -14,14 +14,10 @@ import (
 var ErrMetaNotFound = fmt.Errorf("Meta not found")
 
 type CMMeta struct {
-	Title       string `yaml:"title"`
-	Tags        string `yaml:"tags"`
-	Description string `yaml:"description"`
-	Date        string `yaml:"date"`
-}
-
-func (c *CMMeta) TagsAsSlice() []string {
-	return strings.Split(c.Tags, ",")
+	Title       string   `yaml:"title"`
+	Tags        []string `yaml:"tags"`
+	Description string   `yaml:"description"`
+	Date        string   `yaml:"date"`
 }
 
 func (c *CMMeta) DateAsTime() time.Time {
