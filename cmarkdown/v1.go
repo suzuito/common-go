@@ -84,6 +84,7 @@ func (g *V1) Convert(
 	ctx context.Context,
 	source []byte,
 	w io.Writer,
+	meta *CMMeta,
 	tocs *[]CMTOC,
 	images *[]CMImage,
 ) error {
@@ -120,5 +121,8 @@ func (g *V1) Convert(
 	returned = strings.Replace(returned, "<html><head></head><body>", "", 1)
 	returned = strings.Replace(returned, "</body></html>", "", 1)
 	fmt.Fprint(w, returned)
+	if err := parseMeta(source, meta); err != nil {
+		return xerrors.Errorf("parseMeta : %w", err)
+	}
 	return nil
 }
