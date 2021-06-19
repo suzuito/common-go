@@ -10,6 +10,7 @@ type Converter interface {
 		ctx context.Context,
 		source []byte,
 		w io.Writer,
+		meta *CMMeta,
 		tocs *[]CMTOC,
 		images *[]CMImage,
 	) error
