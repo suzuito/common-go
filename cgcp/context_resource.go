@@ -65,21 +65,25 @@ func NewGCPContextResourceGenerator() *GCPContextResourceGenerator {
 
 func (r *GCPContextResourceGenerator) GCS() *GCPContextResourceGenerator {
 	r.newGCS = true
+	return r
 }
 
 func (r *GCPContextResourceGenerator) GMS(cli *redis.Client, ttl int) *GCPContextResourceGenerator {
 	r.redisClient = cli
 	r.redisTTL = ttl
 	r.newGMS = true
+	return r
 }
 
 func (r *GCPContextResourceGenerator) GCF() *GCPContextResourceGenerator {
 	r.newGCF = true
+	return r
 }
 
 func (r *GCPContextResourceGenerator) GCPS(projectID string) *GCPContextResourceGenerator {
 	r.newGCPS = true
 	r.ProjectIDGCPS = projectID
+	return r
 }
 
 func (r *GCPContextResourceGenerator) Gen(ctx context.Context) (*GCPContextResource, error) {
