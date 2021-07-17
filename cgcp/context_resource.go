@@ -63,21 +63,21 @@ func NewGCPContextResourceGenerator() *GCPContextResourceGenerator {
 	}
 }
 
-func (r *GCPContextResourceGenerator) GCS() {
+func (r *GCPContextResourceGenerator) GCS() *GCPContextResourceGenerator {
 	r.newGCS = true
 }
 
-func (r *GCPContextResourceGenerator) GMS(cli *redis.Client, ttl int) {
+func (r *GCPContextResourceGenerator) GMS(cli *redis.Client, ttl int) *GCPContextResourceGenerator {
 	r.redisClient = cli
 	r.redisTTL = ttl
 	r.newGMS = true
 }
 
-func (r *GCPContextResourceGenerator) GCF() {
+func (r *GCPContextResourceGenerator) GCF() *GCPContextResourceGenerator {
 	r.newGCF = true
 }
 
-func (r *GCPContextResourceGenerator) GCPS(projectID string) {
+func (r *GCPContextResourceGenerator) GCPS(projectID string) *GCPContextResourceGenerator {
 	r.newGCPS = true
 	r.ProjectIDGCPS = projectID
 }
