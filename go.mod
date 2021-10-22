@@ -10,7 +10,7 @@ require (
 	cloud.google.com/go/storage v1.18.2
 	firebase.google.com/go v3.13.0+incompatible
 	github.com/PuerkitoBio/goquery v1.7.0
-	github.com/gin-contrib/cors v1.3.0
+	github.com/gin-contrib/cors v1.3.1
 	github.com/gin-gonic/gin v1.7.4
 	github.com/go-redis/redis/v7 v7.4.1
 	github.com/golang/mock v1.6.0
