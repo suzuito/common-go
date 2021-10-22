@@ -11,7 +11,7 @@ go install github.com/golang/mock/mockgen
 
 ```bash
 # Execute unit test
-./test
+make test
 # Check coverage
 open /tmp/artifacts/go-code-cover/cgin.html
 ```
