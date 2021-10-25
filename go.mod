@@ -20,5 +20,5 @@ require (
 	github.com/yuin/goldmark v1.3.5
 	golang.org/x/xerrors v0.0.0-20200804184101-5ec99f83aff1
 	google.golang.org/genproto v0.0.0-20211018162055-cf77aa76bad2
-	gopkg.in/yaml.v2 v2.2.8
+	gopkg.in/yaml.v2 v2.4.0
 )
