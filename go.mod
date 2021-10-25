@@ -3,7 +3,7 @@ module github.com/suzuito/common-go
 go 1.16
 
 require (
-	cloud.google.com/go/firestore v1.5.0
+	cloud.google.com/go/firestore v1.6.0
 	cloud.google.com/go/kms v1.1.0 // indirect
 	cloud.google.com/go/pubsub v1.3.1
 	cloud.google.com/go/secretmanager v1.0.0
