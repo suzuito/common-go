@@ -3,6 +3,7 @@ package cgcp
 import (
 	"context"
 	"os"
+	"strings"
 
 	secretmanager "cloud.google.com/go/secretmanager/apiv1"
 	"golang.org/x/xerrors"
@@ -40,6 +41,25 @@ func (c *SecretClientGCP) ReplaceEnv(ctx context.Context, ekey string) error {
 	}
 	if err := os.Setenv(ekey, string(b)); err != nil {
 		return err
+	}
+	return nil
+}
+
+func (c *SecretClientGCP) ReplaceAllEnvs(ctx context.Context) error {
+	prefix := "GCP_SECRET__"
+	envs := os.Environ()
+	for _, env := range envs {
+		parts := strings.Split(env, "=")
+		if len(parts) < 2 {
+			continue
+		}
+		prevKey := parts[0]
+		secretName := parts[1]
+		nextKey := strings.Replace(prevKey, prefix, "", -1)
+		os.Setenv(nextKey, secretName)
+		if err := c.ReplaceEnv(ctx, nextKey); err != nil {
+			return xerrors.Errorf("cannot replace env : %w", err)
+		}
 	}
 	return nil
 }
