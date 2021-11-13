@@ -54,6 +54,9 @@ func (c *SecretClientGCP) ReplaceAllEnvs(ctx context.Context) error {
 			continue
 		}
 		prevKey := parts[0]
+		if !strings.HasPrefix(prevKey, prefix) {
+			continue
+		}
 		secretName := parts[1]
 		nextKey := strings.Replace(prevKey, prefix, "", -1)
 		os.Setenv(nextKey, secretName)
