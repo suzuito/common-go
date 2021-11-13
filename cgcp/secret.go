@@ -67,7 +67,7 @@ func (c *SecretClientGCP) ReplaceAllEnvs(ctx context.Context) error {
 func NewSecretClientGCP(ctx context.Context) (*SecretClientGCP, error) {
 	cli, err := secretmanager.NewClient(ctx)
 	if err != nil {
-		return nil, xerrors.Errorf("Cannot new secret manager client")
+		return nil, xerrors.Errorf("Cannot new secret manager client : %w", err)
 	}
 	return &SecretClientGCP{
 		cli: cli,
