@@ -7,6 +7,7 @@ import (
 	"cloud.google.com/go/pubsub"
 	"cloud.google.com/go/storage"
 	firebase "firebase.google.com/go"
+	"firebase.google.com/go/auth"
 	"github.com/go-redis/redis/v7"
 	"golang.org/x/xerrors"
 )
@@ -14,6 +15,7 @@ import (
 type GCPContextResource struct {
 	GCS  *storage.Client
 	GCF  *firestore.Client
+	GCA  *auth.Client
 	GCPS *pubsub.Client
 	GMS  MemoryStoreClient
 }
@@ -46,6 +48,7 @@ func (r *GCPContextResource) Close() []error {
 type GCPContextResourceGenerator struct {
 	newGCS        bool
 	newGCF        bool
+	newGCA        bool
 	newGMS        bool
 	newGCPS       bool
 	ProjectIDGCPS string
@@ -58,6 +61,7 @@ func NewGCPContextResourceGenerator() *GCPContextResourceGenerator {
 		newGCS:      false,
 		newGMS:      false,
 		newGCF:      false,
+		newGCA:      false,
 		newGCPS:     false,
 		redisClient: nil,
 	}
@@ -86,6 +90,11 @@ func (r *GCPContextResourceGenerator) GCPS(projectID string) *GCPContextResource
 	return r
 }
 
+func (r *GCPContextResourceGenerator) GCA() *GCPContextResourceGenerator {
+	r.newGCA = true
+	return r
+}
+
 func (r *GCPContextResourceGenerator) Gen(ctx context.Context) (*GCPContextResource, error) {
 	var err error
 	ret := GCPContextResource{}
@@ -100,7 +109,7 @@ func (r *GCPContextResourceGenerator) Gen(ctx context.Context) (*GCPContextResou
 			return nil, xerrors.Errorf("Cannot storage.NewClient : %w", err)
 		}
 	}
-	if r.newGCF {
+	if r.newGCF || r.newGCA {
 		var app *firebase.App
 		app, err = firebase.NewApp(ctx, nil)
 		if err != nil {
@@ -110,6 +119,12 @@ func (r *GCPContextResourceGenerator) Gen(ctx context.Context) (*GCPContextResou
 			ret.GCF, err = app.Firestore(ctx)
 			if err != nil {
 				return nil, xerrors.Errorf("Cannot app.Firestore : %w", err)
+			}
+		}
+		if r.newGCA {
+			ret.GCA, err = app.Auth(ctx)
+			if err != nil {
+				return nil, xerrors.Errorf("Cannot app.Auth : %w", err)
 			}
 		}
 	}
