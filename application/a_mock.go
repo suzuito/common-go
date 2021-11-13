@@ -6,35 +6,36 @@ package application
 
 import (
 	context "context"
+	reflect "reflect"
+
 	gomock "github.com/golang/mock/gomock"
 	clogger "github.com/suzuito/common-go/clogger"
-	reflect "reflect"
 )
 
-// MockApplicationLogger is a mock of ApplicationLogger interface
+// MockApplicationLogger is a mock of ApplicationLogger interface.
 type MockApplicationLogger struct {
 	ctrl     *gomock.Controller
 	recorder *MockApplicationLoggerMockRecorder
 }
 
-// MockApplicationLoggerMockRecorder is the mock recorder for MockApplicationLogger
+// MockApplicationLoggerMockRecorder is the mock recorder for MockApplicationLogger.
 type MockApplicationLoggerMockRecorder struct {
 	mock *MockApplicationLogger
 }
 
-// NewMockApplicationLogger creates a new mock instance
+// NewMockApplicationLogger creates a new mock instance.
 func NewMockApplicationLogger(ctrl *gomock.Controller) *MockApplicationLogger {
 	mock := &MockApplicationLogger{ctrl: ctrl}
 	mock.recorder = &MockApplicationLoggerMockRecorder{mock}
 	return mock
 }
 
-// EXPECT returns an object that allows the caller to indicate expected use
+// EXPECT returns an object that allows the caller to indicate expected use.
 func (m *MockApplicationLogger) EXPECT() *MockApplicationLoggerMockRecorder {
 	return m.recorder
 }
 
-// Logger mocks base method
+// Logger mocks base method.
 func (m *MockApplicationLogger) Logger(ctx context.Context) clogger.Logger {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Logger", ctx)
@@ -42,7 +43,7 @@ func (m *MockApplicationLogger) Logger(ctx context.Context) clogger.Logger {
 	return ret0
 }
 
-// Logger indicates an expected call of Logger
+// Logger indicates an expected call of Logger.
 func (mr *MockApplicationLoggerMockRecorder) Logger(ctx interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Logger", reflect.TypeOf((*MockApplicationLogger)(nil).Logger), ctx)
