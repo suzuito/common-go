@@ -14,6 +14,10 @@ type SecretClientGCP struct {
 	cli *secretmanager.Client
 }
 
+func (c *SecretClientGCP) Close() error {
+	return c.cli.Close()
+}
+
 func (c *SecretClientGCP) Get(ctx context.Context, name string) ([]byte, error) {
 	req := secretmanagerpb.AccessSecretVersionRequest{
 		Name: name,

@@ -1,5 +1,7 @@
 package cgcp
 
+// Deprecated: Following GCP resource clients should be reused.
+
 import (
 	"context"
 
