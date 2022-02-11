@@ -48,10 +48,11 @@ func (r *GCPResource) Close() []error {
 type GCPResourceGenerator struct {
 	newGCS        bool
 	newGCF        bool
+	projectIDGCF  string
 	newGCA        bool
 	newGMS        bool
 	newGCPS       bool
-	ProjectIDGCPS string
+	projectIDGCPS string
 	redisClient   *redis.Client
 	redisTTL      int
 }
@@ -79,14 +80,15 @@ func (r *GCPResourceGenerator) GMS(cli *redis.Client, ttl int) *GCPResourceGener
 	return r
 }
 
-func (r *GCPResourceGenerator) GCF() *GCPResourceGenerator {
+func (r *GCPResourceGenerator) GCF(projectID string) *GCPResourceGenerator {
+	r.projectIDGCF = projectID
 	r.newGCF = true
 	return r
 }
 
 func (r *GCPResourceGenerator) GCPS(projectID string) *GCPResourceGenerator {
 	r.newGCPS = true
-	r.ProjectIDGCPS = projectID
+	r.projectIDGCPS = projectID
 	return r
 }
 
@@ -109,17 +111,17 @@ func (r *GCPResourceGenerator) Gen(ctx context.Context) (*GCPResource, error) {
 			return nil, xerrors.Errorf("Cannot storage.NewClient : %w", err)
 		}
 	}
-	if r.newGCF || r.newGCA {
+	if r.newGCF {
+		ret.GCF, err = firestore.NewClient(ctx, r.projectIDGCF)
+		if err != nil {
+			return nil, xerrors.Errorf("Cannot firestore.NewClient : %w", err)
+		}
+	}
+	if r.newGCA {
 		var app *firebase.App
 		app, err = firebase.NewApp(ctx, nil)
 		if err != nil {
 			return nil, xerrors.Errorf("Cannot firebase.NewApp : %w", err)
-		}
-		if r.newGCF {
-			ret.GCF, err = app.Firestore(ctx)
-			if err != nil {
-				return nil, xerrors.Errorf("Cannot app.Firestore : %w", err)
-			}
 		}
 		if r.newGCA {
 			ret.GCA, err = app.Auth(ctx)
@@ -132,7 +134,7 @@ func (r *GCPResourceGenerator) Gen(ctx context.Context) (*GCPResource, error) {
 		ret.GMS = NewMemoryStoreClientRedis(r.redisClient, r.redisTTL)
 	}
 	if r.newGCPS {
-		ret.GCPS, err = pubsub.NewClient(ctx, r.ProjectIDGCPS)
+		ret.GCPS, err = pubsub.NewClient(ctx, r.projectIDGCPS)
 		if err != nil {
 			return nil, xerrors.Errorf("Cannot pubsub.NewClient : %w", err)
 		}
