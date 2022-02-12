@@ -1,7 +1,5 @@
 package cgcp
 
-// Deprecated: Following GCP resource clients should be reused.
-
 import (
 	"context"
 
@@ -14,7 +12,7 @@ import (
 	"golang.org/x/xerrors"
 )
 
-type GCPContextResource struct {
+type GCPResource struct {
 	GCS  *storage.Client
 	GCF  *firestore.Client
 	GCA  *auth.Client
@@ -22,7 +20,7 @@ type GCPContextResource struct {
 	GMS  MemoryStoreClient
 }
 
-func (r *GCPContextResource) Close() []error {
+func (r *GCPResource) Close() []error {
 	errs := []error{}
 	if r.GCS != nil {
 		if err := r.GCS.Close(); err != nil {
@@ -47,19 +45,20 @@ func (r *GCPContextResource) Close() []error {
 	return errs
 }
 
-type GCPContextResourceGenerator struct {
+type GCPResourceGenerator struct {
 	newGCS        bool
 	newGCF        bool
+	projectIDGCF  string
 	newGCA        bool
 	newGMS        bool
 	newGCPS       bool
-	ProjectIDGCPS string
+	projectIDGCPS string
 	redisClient   *redis.Client
 	redisTTL      int
 }
 
-func NewGCPContextResourceGenerator() *GCPContextResourceGenerator {
-	return &GCPContextResourceGenerator{
+func NewGCPResourceGenerator() *GCPResourceGenerator {
+	return &GCPResourceGenerator{
 		newGCS:      false,
 		newGMS:      false,
 		newGCF:      false,
@@ -69,37 +68,38 @@ func NewGCPContextResourceGenerator() *GCPContextResourceGenerator {
 	}
 }
 
-func (r *GCPContextResourceGenerator) GCS() *GCPContextResourceGenerator {
+func (r *GCPResourceGenerator) GCS() *GCPResourceGenerator {
 	r.newGCS = true
 	return r
 }
 
-func (r *GCPContextResourceGenerator) GMS(cli *redis.Client, ttl int) *GCPContextResourceGenerator {
+func (r *GCPResourceGenerator) GMS(cli *redis.Client, ttl int) *GCPResourceGenerator {
 	r.redisClient = cli
 	r.redisTTL = ttl
 	r.newGMS = true
 	return r
 }
 
-func (r *GCPContextResourceGenerator) GCF() *GCPContextResourceGenerator {
+func (r *GCPResourceGenerator) GCF(projectID string) *GCPResourceGenerator {
+	r.projectIDGCF = projectID
 	r.newGCF = true
 	return r
 }
 
-func (r *GCPContextResourceGenerator) GCPS(projectID string) *GCPContextResourceGenerator {
+func (r *GCPResourceGenerator) GCPS(projectID string) *GCPResourceGenerator {
 	r.newGCPS = true
-	r.ProjectIDGCPS = projectID
+	r.projectIDGCPS = projectID
 	return r
 }
 
-func (r *GCPContextResourceGenerator) GCA() *GCPContextResourceGenerator {
+func (r *GCPResourceGenerator) GCA() *GCPResourceGenerator {
 	r.newGCA = true
 	return r
 }
 
-func (r *GCPContextResourceGenerator) Gen(ctx context.Context) (*GCPContextResource, error) {
+func (r *GCPResourceGenerator) Gen(ctx context.Context) (*GCPResource, error) {
 	var err error
-	ret := GCPContextResource{}
+	ret := GCPResource{}
 	defer func() {
 		if err != nil {
 			ret.Close()
@@ -111,17 +111,17 @@ func (r *GCPContextResourceGenerator) Gen(ctx context.Context) (*GCPContextResou
 			return nil, xerrors.Errorf("Cannot storage.NewClient : %w", err)
 		}
 	}
-	if r.newGCF || r.newGCA {
+	if r.newGCF {
+		ret.GCF, err = firestore.NewClient(ctx, r.projectIDGCF)
+		if err != nil {
+			return nil, xerrors.Errorf("Cannot firestore.NewClient : %w", err)
+		}
+	}
+	if r.newGCA {
 		var app *firebase.App
 		app, err = firebase.NewApp(ctx, nil)
 		if err != nil {
 			return nil, xerrors.Errorf("Cannot firebase.NewApp : %w", err)
-		}
-		if r.newGCF {
-			ret.GCF, err = app.Firestore(ctx)
-			if err != nil {
-				return nil, xerrors.Errorf("Cannot app.Firestore : %w", err)
-			}
 		}
 		if r.newGCA {
 			ret.GCA, err = app.Auth(ctx)
@@ -134,7 +134,7 @@ func (r *GCPContextResourceGenerator) Gen(ctx context.Context) (*GCPContextResou
 		ret.GMS = NewMemoryStoreClientRedis(r.redisClient, r.redisTTL)
 	}
 	if r.newGCPS {
-		ret.GCPS, err = pubsub.NewClient(ctx, r.ProjectIDGCPS)
+		ret.GCPS, err = pubsub.NewClient(ctx, r.projectIDGCPS)
 		if err != nil {
 			return nil, xerrors.Errorf("Cannot pubsub.NewClient : %w", err)
 		}

@@ -9,7 +9,7 @@ jobs:
     name: Run unit test ${{ matrix.go }}
     strategy:
       matrix:
-        go: [ '1.16.x' ]
+        go: [ '1.17.x' ]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
