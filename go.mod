@@ -5,7 +5,7 @@ go 1.17
 require (
 	cloud.google.com/go/firestore v1.6.1
 	cloud.google.com/go/pubsub v1.18.0
-	cloud.google.com/go/secretmanager v1.0.0
+	cloud.google.com/go/secretmanager v1.2.0
 	cloud.google.com/go/storage v1.18.2
 	firebase.google.com/go v3.13.0+incompatible
 	github.com/PuerkitoBio/goquery v1.8.0
@@ -26,7 +26,6 @@ require (
 	cloud.google.com/go v0.100.2 // indirect
 	cloud.google.com/go/compute v1.2.0 // indirect
 	cloud.google.com/go/iam v0.1.1 // indirect
-	cloud.google.com/go/kms v1.1.0 // indirect
 	github.com/andybalholm/cascadia v1.3.1 // indirect
 	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/gin-contrib/sse v0.1.0 // indirect
