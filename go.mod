@@ -16,7 +16,7 @@ require (
 	github.com/litao91/goldmark-mathjax v0.0.0-20210217064022-a43cf739a50f
 	github.com/stretchr/testify v1.7.0
 	github.com/suzuito/common-env v1.1.0
-	github.com/yuin/goldmark v1.3.5
+	github.com/yuin/goldmark v1.4.8
 	golang.org/x/xerrors v0.0.0-20200804184101-5ec99f83aff1
 	google.golang.org/genproto v0.0.0-20220208230804-65c12eb4c068
 	gopkg.in/yaml.v2 v2.4.0
@@ -26,7 +26,6 @@ require (
 	cloud.google.com/go v0.100.2 // indirect
 	cloud.google.com/go/compute v1.2.0 // indirect
 	cloud.google.com/go/iam v0.1.1 // indirect
-	cloud.google.com/go/kms v1.1.0 // indirect
 	github.com/andybalholm/cascadia v1.3.1 // indirect
 	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/gin-contrib/sse v0.1.0 // indirect
