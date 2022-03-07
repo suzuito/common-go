@@ -10,7 +10,7 @@ require (
 	firebase.google.com/go v3.13.0+incompatible
 	github.com/PuerkitoBio/goquery v1.8.0
 	github.com/gin-contrib/cors v1.3.1
-	github.com/gin-gonic/gin v1.7.4
+	github.com/gin-gonic/gin v1.7.7
 	github.com/go-redis/redis/v7 v7.4.1
 	github.com/golang/mock v1.6.0
 	github.com/litao91/goldmark-mathjax v0.0.0-20210217064022-a43cf739a50f
