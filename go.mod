@@ -6,7 +6,7 @@ require (
 	cloud.google.com/go/firestore v1.6.1
 	cloud.google.com/go/pubsub v1.18.0
 	cloud.google.com/go/secretmanager v1.3.0
-	cloud.google.com/go/storage v1.18.2
+	cloud.google.com/go/storage v1.21.0
 	firebase.google.com/go v3.13.0+incompatible
 	github.com/PuerkitoBio/goquery v1.8.0
 	github.com/gin-contrib/cors v1.3.1
