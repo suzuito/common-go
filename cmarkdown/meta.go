@@ -14,6 +14,7 @@ import (
 var ErrMetaNotFound = fmt.Errorf("Meta not found")
 
 type CMMeta struct {
+	ID          string   `yaml:"id"`
 	Title       string   `yaml:"title"`
 	Tags        []string `yaml:"tags"`
 	Description string   `yaml:"description"`
