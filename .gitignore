@@ -1,2 +1,5 @@
 main.cov
 *.exe
+
+coverage.txt
+coverage.html

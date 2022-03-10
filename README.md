@@ -1,3 +1,4 @@
+[![codecov](https://codecov.io/gh/suzuito/common-go/branch/main/graph/badge.svg?token=2D59IPCP2Q)](https://codecov.io/gh/suzuito/common-go)
 
 # Development
 
