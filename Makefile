@@ -6,6 +6,5 @@ mock:
 	./mockgen application/a.go
 
 test:
-	rm -rf /tmp/artifacts && mkdir -p /tmp/artifacts
-	go test -timeout 30s -coverprofile=/tmp/artifacts/index.cov ./...
-	go tool cover -html=/tmp/artifacts/index.cov -o /tmp/artifacts/index.html
+	go test -timeout 30s -coverprofile=coverage.txt -covermode=atomic ./...
+	go tool cover -html=coverage.txt -o coverage.html
