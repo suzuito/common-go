@@ -180,3 +180,46 @@ func TestFloat64(t *testing.T) {
 		})
 	}
 }
+
+func TestBool(t *testing.T) {
+	testCases := []struct {
+		desc            string
+		inputQueryKey   string
+		inputQueryValue string
+		inputDefault    bool
+		expected        bool
+	}{
+		{
+			desc:            "Convertable query",
+			inputQueryKey:   "q",
+			inputQueryValue: "true",
+			inputDefault:    false,
+			expected:        true,
+		},
+		{
+			desc:         "Empty query",
+			inputDefault: false,
+			expected:     false,
+		},
+		{
+			desc:            "Unconvertable (str)",
+			inputQueryKey:   "q",
+			inputQueryValue: "hoge",
+			inputDefault:    false,
+			expected:        false,
+		},
+	}
+	for _, tC := range testCases {
+		t.Run(tC.desc, func(t *testing.T) {
+			req, _ := http.NewRequest("GET", "", nil)
+			if tC.inputQueryKey != "" {
+				req.URL.RawQuery = fmt.Sprintf("%s=%s", tC.inputQueryKey, tC.inputQueryValue)
+			}
+			ctx := gin.Context{
+				Request: req,
+			}
+			real := DefaultQueryAsBool(&ctx, tC.inputQueryKey, tC.inputDefault)
+			assert.Equal(t, tC.expected, real)
+		})
+	}
+}
